@@ -1,5 +1,6 @@
 const CATS = ['All','Router','Gateway','Switch','Energy Meter','Other'];
 const PAGE_SIZE = 12;
+let PRODUCTS = [];
 let viewMode = 'grid';
 let activeCat = 'All';
 let compareSet = new Set();
@@ -139,7 +140,7 @@ function goPage(p) {
 function renderGrid(list, r) {
   r.className = 'grid-view';
   r.innerHTML = list.map(p => `
-    <div class="card ${compareSet.has(p.id)?'compare-selected':''}" onclick="openDetail('${p.id}')">
+    <div class="card ${compareSet.has(p.id)?'compare-selected':''}">
       <span class="badge ${catBadgeClass(p.cat)}">${p.cat}</span>
       <div class="card-name">${p.name}</div>
       <div class="card-desc">${p.desc}</div>
@@ -151,11 +152,11 @@ function renderGrid(list, r) {
         ${p.ports>0?`<span class="spec-pill">${p.ports} ports</span>`:''}
         ${p.ip?`<span class="spec-pill">${p.ip}</span>`:''}
       </div>
-      <div class="card-footer" onclick="event.stopPropagation()">
-        <label class="compare-check">
+      <div class="card-footer">
+        <label class="compare-check" onclick="event.stopPropagation()">
           <input type="checkbox" ${compareSet.has(p.id)?'checked':''} onchange="toggleCompare('${p.id}',this.checked)"> Compare
         </label>
-        <span class="details-link">Details →</span>
+        <span class="details-link" onclick="openDetail('${p.id}')">Details →</span>
       </div>
     </div>
   `).join('');
@@ -367,4 +368,6 @@ function closeModal() { document.getElementById('modalRoot').innerHTML = ''; }
 
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
+PRODUCTS = PRODUCTS_DATA;
+document.getElementById('statTotal').textContent = PRODUCTS.length;
 render();

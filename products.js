@@ -1,389 +1,1230 @@
-const PRODUCTS = [
-  {id:'intel-x6425',name:'Intel X6425',cat:'Router',cpu:'Intel X86 Atom X6425E, 4-core up to 3 GHz',ram:'Up to 32 GB DDR4 3200',storage:'Up to 1 TB SATA SSD',cell:'5G',cellular_gen:'5G',wifi:'WiFi6',rs485:false,rs232:false,ip:'IP30',power:'19 / 24 VDC',ports:4,os:'Oracle Linux v9.5 / Ubuntu 23 / Windows 10+',desc:'High-performance x86 edge compute router with 5G (Telit FN990A28), dual-band Wi-Fi 6, and up to 32 GB RAM',housing:'Aluminium',dims:'150×210×65 mm',weight:'—',op_temp:'0–50 °C',
-   variants:null},
-
-  {id:'inv-ce-xx',name:'INV-CE-XX',cat:'Router',cpu:'Intel X7425E, 4-core 3.4 GHz',ram:'Up to 32 GB DDR5',storage:'Up to 512 GB SSD / 128 GB eMMC',cell:'4G/5G',cellular_gen:'5G',wifi:'WiFi6',rs485:false,rs232:false,ip:'',power:'12V DC',ports:4,os:'OpenWRT / Ubuntu / Windows 11 / Windows IoT',desc:'Compact SDWAN / Mini-PC router based on Intel X7 platform with modular 4G/5G modem slot',housing:'Aluminium',dims:'150×160×55 mm',weight:'—',op_temp:'0–50 °C',
-   variants:{
-     note:'Part number format: INV-CX-x7425e-[Type][Display]-[eMMC]-[SSD]-[RAM]-[Modem]. RAM: 1=4 GB … 5=64 GB DDR5 | eMMC: 1=8 GB … 5=128 GB | SSD: 1=128 GB … 4=1 TB | Modem: 0=None, 4=4G, 5=5G | Wi-Fi: 0=None, 6=Wi-Fi 6',
-     headers:['Type','Code','Description','Example Part No.'],
-     rows:[
-       ['Mini-PC / NUC','D','Compact form-factor desktop/NUC','INV-CD60-214-H'],
-       ['SDWAN Router','E','Software-defined WAN router','INV-CE65-214-C'],
-       ['Industrial PC','Ea','RS485, RS232, 4× DIO','—'],
-       ['6-Port SDWAN','Eb','6× GbE, dual 5G modem support','—'],
-     ]
-   }},
-
-  {id:'inv-cea-xx',name:'INV-CEA-XX',cat:'Router',cpu:'Intel X7425E, 4-core 3.4 GHz',ram:'Up to 64 GB DDR5',storage:'Up to 512 GB SSD / 64 GB eMMC',cell:'4G/5G',cellular_gen:'5G',wifi:'WiFi6',rs485:true,rs232:true,ip:'',power:'12V DC',ports:4,os:'Ubuntu / Oracle Linux / OpenWRT / Windows',desc:'Industrial PC router with 2× isolated RS485, 2× isolated RS232, 4× isolated DIOs, and optional HDMI',housing:'Aluminium',dims:'150×250×55 mm',weight:'—',op_temp:'0–50 °C',
-   variants:{
-     note:'Part number format: INV-CX-x7425e-[Type][Display]-[eMMC]-[SSD]-[RAM]-[Modem]. RAM: 1=4 GB … 5=64 GB DDR5 | eMMC: 1=8 GB … 5=128 GB | SSD: 1=128 GB … 4=1 TB | Modem: 0=None, 4=4G, 5=5G | Wi-Fi: 0=None, 6=Wi-Fi 6',
-     headers:['Type','Code','Description','Example Part No.'],
-     rows:[
-       ['Mini-PC / NUC','D','Compact form-factor desktop/NUC','INV-CD60-214-H'],
-       ['SDWAN Router','E','Software-defined WAN router','INV-CE65-214-C'],
-       ['Industrial PC','Ea','RS485, RS232, 4× DIO','—'],
-       ['6-Port SDWAN','Eb','6× GbE, dual 5G modem support','—'],
-     ]
-   }},
-
-  {id:'inv-ceb-xx',name:'INV-CEB-XX',cat:'Router',cpu:'Intel X7425E, 4-core 3.4 GHz',ram:'Up to 64 GB DDR5',storage:'Up to 512 GB SSD / 64 GB eMMC',cell:'4G/5G',cellular_gen:'5G',wifi:'WiFi6',rs485:false,rs232:true,ip:'',power:'12V DC',ports:6,os:'Ubuntu / Oracle / OpenWRT / VyOS',desc:'6-port SDWAN router with dual 5G modem support and optional RS232',housing:'Sheet Metal + Al heatsink',dims:'150×250×55 mm',weight:'—',op_temp:'0–50 °C',
-   variants:{
-     note:'Part number format: INV-CX-x7425e-[Type][Display]-[eMMC]-[SSD]-[RAM]-[Modem]. RAM: 1=4 GB … 5=64 GB DDR5 | eMMC: 1=8 GB … 5=128 GB | SSD: 1=128 GB … 4=1 TB | Modem: 0=None, 4=4G, 5=5G | Wi-Fi: 0=None, 6=Wi-Fi 6',
-     headers:['Type','Code','Description','Example Part No.'],
-     rows:[
-       ['Mini-PC / NUC','D','Compact form-factor desktop/NUC','INV-CD60-214-H'],
-       ['SDWAN Router','E','Software-defined WAN router','INV-CE65-214-C'],
-       ['Industrial PC','Ea','RS485, RS232, 4× DIO','—'],
-       ['6-Port SDWAN','Eb','6× GbE, dual 5G modem support','—'],
-     ]
-   }},
-
-  {id:'inv-cd-xx',name:'INV-CD-XX',cat:'Router',cpu:'Intel X7425E, 4-core 3.4 GHz',ram:'Up to 64 GB DDR5',storage:'Up to 512 GB SSD / 64 GB eMMC',cell:'4G/5G',cellular_gen:'5G',wifi:'WiFi6',rs485:false,rs232:true,ip:'',power:'12V DC',ports:2,os:'Oracle Linux / Ubuntu 23 / Windows 10+',desc:'Ultra-compact mini-PC with dual HDMI, LVDS display, 2× USB 3.0, 4× USB 2.0',housing:'Aluminium',dims:'150×123×35 mm',weight:'995 g',op_temp:'0–50 °C',
-   variants:{
-     note:'Part number format: INV-CX-x7425e-[Type][Display]-[eMMC]-[SSD]-[RAM]-[Modem]. RAM: 1=4 GB … 5=64 GB DDR5 | eMMC: 1=8 GB … 5=128 GB | SSD: 1=128 GB … 4=1 TB | Modem: 0=None, 4=4G, 5=5G | Wi-Fi: 0=None, 6=Wi-Fi 6',
-     headers:['Type','Code','Description','Example Part No.'],
-     rows:[
-       ['Mini-PC / NUC','D','Compact form-factor desktop/NUC','INV-CD60-214-H'],
-       ['SDWAN Router','E','Software-defined WAN router','INV-CE65-214-C'],
-       ['Industrial PC','Ea','RS485, RS232, 4× DIO','—'],
-       ['6-Port SDWAN','Eb','6× GbE, dual 5G modem support','—'],
-     ]
-   }},
-
-  {id:'rtsxx',name:'RTSXX',cat:'Router',cpu:'MediaTek MT7981, 1 GB DDR4, 128 MB NAND',ram:'1 GB DDR4',storage:'128 MB NAND',cell:'4G/5G',cellular_gen:'5G',wifi:'WiFi6',rs485:false,rs232:false,ip:'',power:'9–30 VDC',ports:7,os:'OpenWRT Linux',desc:'Dual-modem 5G/4G router: 4× LAN + 1× WAN + 2× SFP, dual-band Wi-Fi 6',housing:'Sheet Metal',dims:'190×45×120 mm',weight:'700 g',op_temp:'0–50 °C',
-   variants:{
-     headers:['Cellular','Wi-Fi','4G/5G','No. of Modems','Part Number'],
-     rows:[
-       ['—','—','—','—','RTS00'],
-       ['✓','—','4G','Single','RTS04-1'],
-       ['✓','—','4G','Dual','RTS04-2'],
-       ['✓','—','5G','Single','RTS05-1'],
-       ['✓','—','5G','Dual','RTS05-2'],
-       ['—','Wi-Fi 6','—','—','RTS-60'],
-       ['✓','Wi-Fi 6','4G','Single','RTS64-1'],
-       ['✓','Wi-Fi 6','4G','Dual','RTS64-2'],
-       ['✓','Wi-Fi 6','5G','Single','RTS65-1'],
-       ['✓','Wi-Fi 6','5G','Dual','RTS65-2'],
-     ]
-   }},
-
-  {id:'ru60',name:'RU60',cat:'Router',cpu:'MediaTek MT7981, 1 GB DDR4, 1 Gb NAND',ram:'1 GB DDR4',storage:'1 Gb NAND',cell:'none',cellular_gen:'none',wifi:'WiFi6',rs485:false,rs232:false,ip:'IP30',power:'12 VDC',ports:2,os:'OpenWRT Linux',desc:'Ceiling-mount Wi-Fi 6 access point with AP/Station/EasyMesh support, no cellular',housing:'Metal',dims:'209×30×154 mm',weight:'950 g',op_temp:'-20–60 °C',
-   variants:{
-     headers:['Cellular','Wi-Fi','4G/5G','No. of Modems','Part Number'],
-     rows:[
-       ['—','Wi-Fi 6','—','—','RU60'],
-     ]
-   }},
-
-  {id:'roxx',name:'RO XX',cat:'Router',cpu:'MediaTek MT7981, 1 GB DDR4, 128 MB NAND',ram:'1 GB DDR4',storage:'128 MB NAND',cell:'4G/5G',cellular_gen:'5G',wifi:'WiFi6',rs485:false,rs232:false,ip:'',power:'9–30 VDC',ports:7,os:'OpenWRT 21/23',desc:'Dual-WAN 5G router with Easy Mesh, 4× LAN + 2× WAN + 1× SFP',housing:'Sheet Metal',dims:'210×25×135 mm',weight:'950 g',op_temp:'0–50 °C',
-   variants:{
-     headers:['Cellular','Wi-Fi','4G/5G','No. of Modems','Part Number'],
-     rows:[
-       ['✓','Wi-Fi 6','5G','Dual','RO65-2'],
-       ['✓','Wi-Fi 6','5G','Single','RO65-1'],
-       ['—','Wi-Fi 6','—','—','RO60'],
-       ['✓','Wi-Fi 6','4G','Dual','RO64-2'],
-       ['✓','Wi-Fi 6','4G','Single','RO64-1'],
-     ]
-   }},
-
-  {id:'rtxx',name:'RTXX',cat:'Router',cpu:'MediaTek MT7981, 1 GB DDR4, 128 MB NAND',ram:'1 GB DDR4',storage:'128 MB NAND',cell:'4G/5G',cellular_gen:'5G',wifi:'WiFi6',rs485:false,rs232:false,ip:'',power:'9–30 VDC',ports:5,os:'OpenWRT Linux',desc:'Compact 5G/4G router with dual M.2 modem slots, dual-SIM, Easy Mesh Wi-Fi 6',housing:'Sheet Metal',dims:'110×55×144 mm',weight:'480 g',op_temp:'0–50 °C',
-   variants:{
-     headers:['Cellular','Wi-Fi','4G/5G','No. of Modems','Part Number'],
-     rows:[
-       ['—','—','—','—','RT00'],
-       ['✓','—','4G','Single','RT04-1'],
-       ['✓','—','4G','Dual','RT04-2'],
-       ['✓','—','5G','Single','RT05-1'],
-       ['✓','—','5G','Dual','RT05-2'],
-       ['—','Wi-Fi 6','—','—','RT-60'],
-       ['✓','Wi-Fi 6','4G','Single','RT64-1'],
-       ['✓','Wi-Fi 6','4G','Dual','RT64-2'],
-       ['✓','Wi-Fi 6','5G','Single','RT65-1'],
-       ['✓','Wi-Fi 6','5G','Dual','RT65-2'],
-     ]
-   }},
-
-  {id:'rvxx',name:'RVXX',cat:'Router',cpu:'MediaTek MT7621, 512 MB DDR3, 32 MB Flash',ram:'512 MB DDR3',storage:'32 MB Flash',cell:'4G',cellular_gen:'4G',wifi:'WiFi5',rs485:false,rs232:false,ip:'',power:'12 VDC',ports:5,os:'OpenWRT Linux',desc:'4G dual-SIM router with Wi-Fi 5, 1× WAN + 4× LAN, DIN rail mount',housing:'Industrial Aluminium',dims:'110×60×95 mm',weight:'390 g',op_temp:'0–50 °C',
-   variants:{
-     headers:['Cellular','Wi-Fi','4G/5G','No. of Modems','Part Number'],
-     rows:[
-       ['✓','Wi-Fi 5','4G','Single','RV54-1'],
-       ['✓','Wi-Fi 5','4G','Dual','RV54-2'],
-       ['✓','—','4G','Single','RV04-1'],
-       ['✓','—','4G','Dual','RV04-2'],
-       ['—','Wi-Fi 5','—','—','RV50'],
-     ]
-   }},
-
-  {id:'rv00',name:'RV00',cat:'Router',cpu:'MediaTek MT7621, 512 MB DDR3, 32 MB Flash',ram:'512 MB DDR3',storage:'32 MB Flash',cell:'none',cellular_gen:'none',wifi:'none',rs485:false,rs232:false,ip:'',power:'12 VDC',ports:5,os:'OpenWRT Linux',desc:'Basic wired router, no cellular, no Wi-Fi — 1× WAN + 4× LAN, built-in RTC',housing:'Industrial Aluminium',dims:'110×26×95 mm',weight:'200 g',op_temp:'0–50 °C',
-   variants:{
-     headers:['Cellular','Wi-Fi','4G/5G','No. of Modems','Part Number'],
-     rows:[
-       ['—','—','—','—','RV00'],
-     ]
-   }},
-
-  {id:'rdxx',name:'RDxx',cat:'Router',cpu:'MediaTek MT7628, 128 MB DDR2, 32 MB Flash',ram:'128 MB DDR2',storage:'32 MB Flash',cell:'4G',cellular_gen:'4G',wifi:'WiFi24',rs485:true,rs232:true,ip:'',power:'9–30 VDC',ports:5,os:'OpenWRT Linux',desc:'4G router with RS485, RS232, gateway software option; 1× WAN + 4× LAN',housing:'Sheet Metal',dims:'123×28×121 mm',weight:'370 g',op_temp:'0–50 °C',
-   variants:{
-     headers:['Wi-Fi','Cellular','4G/5G','RS485','RS232','Gateway SW','Part Number'],
-     rows:[
-       ['✓','✓','4G','—','—','—','RD44-A'],
-       ['—','✓','4G','—','—','—','RD04-A'],
-       ['—','✓','4G','—','—','✓','RD44-B'],
-       ['—','✓','4G','✓','—','✓','RD04-B'],
-       ['✓','✓','4G','—','✓','✓','RD44-C'],
-       ['—','✓','4G','✓','✓','✓','RD04-C'],
-       ['—','—','—','—','—','—','RDS00'],
-       ['✓','✓','4G','✓','✓','✓','RDS44'],
-     ]
-   }},
-
-  {id:'rexx',name:'REXX',cat:'Router',cpu:'MediaTek MT7628, 256 MB DDR2, 32 MB Flash',ram:'256 MB DDR2',storage:'32 MB Flash',cell:'4G',cellular_gen:'4G',wifi:'WiFi24',rs485:false,rs232:false,ip:'',power:'12 VDC',ports:4,os:'OpenWRT Linux',desc:'Dual-modem 4G/3G/2G router with Wi-Fi 2.4 GHz, 1× WAN + 3× LAN',housing:'Sheet Metal',dims:'123×28×121 mm',weight:'360 g',op_temp:'0–50 °C',
-   variants:{
-     headers:['Cellular','Wi-Fi','4G/5G','No. of Modems','Part Number'],
-     rows:[
-       ['✓','Wi-Fi 2.4','4G','Dual','RE44'],
-       ['✓','—','4G','Dual','RE04'],
-     ]
-   }},
-
-  {id:'ri44',name:'RI44',cat:'Router',cpu:'Qualcomm QCA9531, 128 MB DDR, 32 MB Flash',ram:'128 MB DDR',storage:'32 MB Flash',cell:'4G',cellular_gen:'4G',wifi:'WiFi24',rs485:true,rs232:false,ip:'',power:'-48 VDC',ports:5,os:'OpenWRT Linux',desc:'-48V telecom-grade router with 2× RS485, passive PoE WAN port',housing:'Sheet Metal',dims:'281×34×119 mm',weight:'985 g',op_temp:'0–50 °C',
-   variants:{
-     headers:['Cellular','Wi-Fi','4G/5G','RS485','No. of Modems','Part Number'],
-     rows:[
-       ['✓','Wi-Fi 2.4','4G','✓','Single','RI44'],
-     ]
-   }},
-
-  {id:'mt7621odu',name:'MT7621-01 ODU',cat:'Router',cpu:'MediaTek MT7621, 512 MB DDR2, 32 MB Flash',ram:'512 MB DDR2',storage:'32 MB Flash',cell:'4G',cellular_gen:'4G',wifi:'none',rs485:false,rs232:false,ip:'IP66',power:'Active PoE 48–57V',ports:2,os:'OpenWRT Linux',desc:'Outdoor 4G unit, IP66, wall/pole mount, PoE powered — ideal for outdoor tower sites',housing:'ABS/PC IP66',dims:'140×75×224 mm',weight:'950 g',op_temp:'0–50 °C',
-   variants:{
-     headers:['Cellular','Wi-Fi','4G/5G','No. of Modems','Part Number'],
-     rows:[
-       ['✓','—','4G','Single','MT7621-01 ODU'],
-     ]
-   }},
-
-  {id:'rt65odu',name:'RT65-ODU',cat:'Router',cpu:'MediaTek MT7981, 1 GB DDR4, 128 MB NAND',ram:'1 GB DDR4',storage:'128 MB NAND',cell:'5G',cellular_gen:'5G',wifi:'WiFi6',rs485:false,rs232:false,ip:'IP67',power:'9–30 VDC',ports:5,os:'OpenWRT Linux',desc:'Outdoor 5G router with IP67 enclosure, Wi-Fi 6 Easy Mesh, 4× LAN + 1× WAN',housing:'IP67 Enclosure',dims:'110×55×144 mm',weight:'480 g',op_temp:'0–50 °C',
-   variants:{
-     headers:['Cellular','Wi-Fi','4G/5G','No. of Modems','Part Number'],
-     rows:[
-       ['✓','Wi-Fi 6','5G','Single','RT65-ODU'],
-     ]
-   }},
-
-  {id:'idf',name:'IDF',cat:'Router',cpu:'MediaTek MT7621, 512 MB DDR, 32 MB Flash',ram:'512 MB DDR',storage:'32 MB Flash',cell:'4G/5G',cellular_gen:'5G',wifi:'WiFi5',rs485:true,rs232:false,ip:'',power:'-48 VDC',ports:4,os:'OpenWRT Linux',desc:'-48V telecom router with 5G dual-SIM, RS485, Wi-Fi 5 — designed for tower base stations',housing:'Industrial Aluminium',dims:'110×44×94 mm',weight:'500 g',op_temp:'-20–60 °C',
-   variants:{
-     headers:['Cellular','Wi-Fi','4G/5G','No. of Modems','Part Number'],
-     rows:[
-       ['✓','Wi-Fi 5','5G','Single','ID55-B'],
-       ['✓','Wi-Fi 5','5G','Single','ID55'],
-       ['✓','Wi-Fi 5','4G','Single','ID54-B'],
-       ['✓','Wi-Fi 5','4G','Single','ID54'],
-     ]
-   }},
-
-  {id:'iexx',name:'IEXX-X-XX',cat:'Gateway',cpu:'MediaTek MT7628, 128 MB DDR2, 32 MB Flash',ram:'128 MB DDR2',storage:'32 MB Flash',cell:'4G',cellular_gen:'4G',wifi:'WiFi24',rs485:true,rs232:false,ip:'',power:'9–36 VDC',ports:2,os:'OpenWRT Linux',desc:'Compact IoT gateway with eSIM support, RS485, 2× configurable DIO',housing:'Metal',dims:'97×28×84 mm',weight:'280 g',op_temp:'-20–60 °C',
-   variants:{
-     headers:['Cellular','Wi-Fi','4G/5G','No. of Modems','Part Number'],
-     rows:[
-       ['✓','Wi-Fi','4G','Single','IE44-A'],
-       ['✓','Wi-Fi','4G','Single','IE44-C'],
-       ['✓','Wi-Fi','4G','Single','IE44-A-EX1 (e-SIM)'],
-     ]
-   }},
-
-  {id:'iaxx',name:'IAXX-X',cat:'Gateway',cpu:'MediaTek MT7628, 128 MB DDR2, 32 MB Flash',ram:'128 MB DDR2',storage:'32 MB Flash',cell:'4G',cellular_gen:'4G',wifi:'WiFi24',rs485:true,rs232:false,ip:'IP30',power:'9–30 VDC',ports:2,os:'OpenWRT Linux',desc:'4G gateway with RS485, dual-SIM, optional 4 GB eMMC storage',housing:'Industrial Aluminium',dims:'110×44×94 mm',weight:'280 g',op_temp:'-20–60 °C',
-   variants:{
-     headers:['Cellular','Wi-Fi','4G/5G','RS485','No. of Modems','Part Number'],
-     rows:[
-       ['✓','Wi-Fi 2.4','4G','✓','Single','IA44-C'],
-       ['✓','Wi-Fi 2.4','4G','✓','Single','IA44-B (4 GB eMMC)'],
-       ['✓','Wi-Fi 2.4','4G','—','Single','IA44-A'],
-       ['—','Wi-Fi 2.4','—','✓','—','IA40-C'],
-     ]
-   }},
-
-  {id:'rfnxx',name:'RFNXX',cat:'Gateway',cpu:'MediaTek MT7628, 128 MB DDR2, 32 MB Flash',ram:'128 MB DDR2',storage:'32 MB Flash',cell:'4G',cellular_gen:'4G',wifi:'WiFi24',rs485:true,rs232:false,ip:'IP30',power:'9–30 VDC',ports:2,os:'OpenWRT Linux',desc:'4G gateway with configurable RS485 or DI/DO — choose interface at order time',housing:'Industrial Aluminium',dims:'112×35×99 mm',weight:'297 g',op_temp:'0–50 °C',
-   variants:{
-     headers:['Cellular','Wi-Fi','RS485','DIO','4G/5G','No. of Modems','Part Number'],
-     rows:[
-       ['✓','Wi-Fi 2.4','—','—','4G','Single','RFN44-A'],
-       ['✓','Wi-Fi 2.4','✓','—','4G','Single','RFN44-B (RS485)'],
-       ['✓','Wi-Fi 2.4','—','✓','4G','Single','RFN44-C (1× DI, 1× DO)'],
-     ]
-   }},
-
-  {id:'iabxx',name:'IABXX-X',cat:'Gateway',cpu:'MediaTek MT7628, 128 MB DDR2, 32 MB Flash',ram:'128 MB DDR2',storage:'32 MB Flash',cell:'4G',cellular_gen:'4G',wifi:'WiFi24',rs485:true,rs232:true,ip:'',power:'9–30 VDC',ports:2,os:'OpenWRT Linux',desc:'Advanced gateway: RS485, RS232, 4× DIO, 2× AI, ISO 24V out, USB host',housing:'Industrial Aluminium',dims:'110×44×94 mm',weight:'427 g',op_temp:'0–50 °C',
-   variants:{
-     headers:['Cellular','Wi-Fi','RS485','RS232','4G/5G','No. of Modems','Part Number'],
-     rows:[
-       ['✓','Wi-Fi 2.4','✓','✓','4G','Single','IAB44-C'],
-       ['✓','Wi-Fi 2.4','✓','✓','4G','Single','IAB44-B (4 GB eMMC)'],
-       ['✓','—','✓','✓','4G','Single','IAB04-B (4 GB eMMC)'],
-       ['✓','—','✓','✓','4G','Single','IAB04-C'],
-     ]
-   }},
-
-  {id:'iacxx',name:'IACXX-X',cat:'Gateway',cpu:'MediaTek MT7628, 128 MB DDR2, 32 MB Flash',ram:'128 MB DDR2',storage:'32 MB Flash',cell:'4G',cellular_gen:'4G',wifi:'WiFi24',rs485:true,rs232:false,ip:'',power:'9–30 VDC',ports:5,os:'OpenWRT Linux',desc:'4-LAN gateway with RS485 and 2× configurable DIO',housing:'Industrial Aluminium',dims:'110×44×94 mm',weight:'400 g',op_temp:'-20–60 °C',
-   variants:{
-     headers:['Cellular','Wi-Fi','RS485','4G/5G','No. of Modems','Part Number'],
-     rows:[
-       ['✓','Wi-Fi 2.4','✓','4G','Single','IAC44-C'],
-       ['✓','Wi-Fi 2.4','—','4G','Single','IAC44-A'],
-       ['✓','—','—','4G','Single','IAC04-A'],
-       ['✓','—','✓','4G','Single','IAC04-C'],
-     ]
-   }},
-
-  {id:'iafxx',name:'IAFXX-X',cat:'Gateway',cpu:'MediaTek MT7628, 128 MB DDR2, 32 MB Flash',ram:'128 MB DDR2',storage:'32 MB Flash',cell:'4G',cellular_gen:'4G',wifi:'WiFi24',rs485:true,rs232:false,ip:'',power:'-48 VDC',ports:2,os:'OpenWRT Linux',desc:'-48V gateway with 4× AI inputs, 2× RS485, DI/DO, pulse input, USB host',housing:'Industrial Aluminium',dims:'110×44×94 mm',weight:'400 g',op_temp:'—',
-   variants:{
-     headers:['Cellular','Wi-Fi','4G/5G','RS485','No. of Modems','Part Number'],
-     rows:[
-       ['✓','Wi-Fi 2.4','4G','—','Single','IAF44-C1'],
-       ['✓','Wi-Fi 2.4','4G','✓','Single','IAF44-C2'],
-       ['✓','—','4G','✓','Single','IAF04-C2'],
-       ['—','—','4G','—','Single','IAF04-C1'],
-     ]
-   }},
-
-  {id:'idxx',name:'IDXX-X',cat:'Gateway',cpu:'MediaTek MT7621, 512 MB DDR3, 64 MB Flash',ram:'512 MB DDR3',storage:'64 MB Flash',cell:'4G',cellular_gen:'4G',wifi:'WiFi5',rs485:true,rs232:false,ip:'',power:'9–30 VDC',ports:4,os:'OpenWRT Linux',desc:'Dual-band Wi-Fi 5 gateway with RS485 and optional 4 GB eMMC',housing:'Industrial Aluminium',dims:'110×44×94 mm',weight:'400 g',op_temp:'-20–60 °C',
-   variants:{
-     headers:['Cellular','Wi-Fi','4G/5G','RS485','No. of Modems','Part Number'],
-     rows:[
-       ['✓','Wi-Fi 5','4G','✓','Single','ID55-B (4 GB eMMC)'],
-       ['✓','—','4G','—','Single','ID55'],
-       ['✓','Wi-Fi 5','4G','✓','Single','ID54-B (4 GB eMMC)'],
-       ['✓','—','4G','—','Single','ID54'],
-     ]
-   }},
-
-  {id:'idbxx',name:'IDBXX-X',cat:'Gateway',cpu:'MediaTek MT7621, 512 MB DDR3, 32 MB Flash',ram:'512 MB DDR3',storage:'32 MB Flash',cell:'4G/5G',cellular_gen:'5G',wifi:'WiFi5',rs485:true,rs232:true,ip:'',power:'9–30 VDC',ports:4,os:'OpenWRT Linux',desc:'5G gateway with RS485, RS232, 4× DI/O, 2× AI — heavy I/O variant',housing:'Industrial Aluminium',dims:'110×44×94 mm',weight:'400 g',op_temp:'-20–60 °C',
-   variants:{
-     headers:['Cellular','Wi-Fi','4G/5G','RS485','RS232','No. of Modems','Part Number'],
-     rows:[
-       ['✓','Wi-Fi 5','5G','✓','✓','Single','IDB55-B'],
-       ['✓','Wi-Fi 5','5G','—','—','Single','IDB55'],
-       ['✓','Wi-Fi 5','4G','✓','✓','Single','IDB54-B'],
-       ['✓','Wi-Fi 5','4G','—','—','Single','IDB54'],
-     ]
-   }},
-
-  {id:'isense',name:'iSense Violet',cat:'Gateway',cpu:'Dual Core 0.88 GHz, 512 MB RAM, eMMC up to 32 GB',ram:'512 MB + eMMC up to 32 GB',storage:'32 MB Flash',cell:'4G',cellular_gen:'4G',wifi:'WiFi24',rs485:true,rs232:true,ip:'',power:'20–60 VDC',ports:4,os:'Linux OS',desc:'Heavy industrial controller: 24× DI, 8× DO (SPDT relay), 4× RS485, 8× AI, 2× RTD, onboard temperature sensor',housing:'Sheet Metal',dims:'—',weight:'1 kg',op_temp:'-10–70 °C',
-   variants:{
-     headers:['Wi-Fi','Cellular','4G/5G','RS485','RS232','DIO Count','Part Number'],
-     rows:[
-       ['✓','✓','4G','✓','✓','24','iSense Violet Plus Pro'],
-       ['✓','✓','4G','✓','✓','12','iSense Green Plus Pro'],
-       ['✓','✓','4G','✓','✓','6','iSense Blue Plus Pro'],
-     ]
-   }},
-
-  {id:'xa82',name:'XA82-2',cat:'Switch',cpu:'—',ram:'—',storage:'—',cell:'none',cellular_gen:'none',wifi:'none',rs485:false,rs232:false,ip:'',power:'9–57 VDC',ports:10,os:'—',desc:'8-port gigabit unmanaged PoE switch + 2× SFP, 240W PoE budget, 30W per port',housing:'Industrial Aluminium',dims:'56×110×114 mm',weight:'300 g',op_temp:'—',
-   variants:{
-     headers:['Cellular','Wi-Fi','PoE Out','PoE Budget','Part Number'],
-     rows:[
-       ['—','—','✓','240W, 30W/port','XA82-2 Unmanaged PoE Switch'],
-     ]
-   }},
-
-  {id:'xb82',name:'XB82-2',cat:'Switch',cpu:'—',ram:'—',storage:'—',cell:'none',cellular_gen:'none',wifi:'none',rs485:false,rs232:false,ip:'',power:'9–57 VDC',ports:10,os:'—',desc:'8-port gigabit unmanaged switch + 2× SFP, no PoE output — pure switching',housing:'Industrial Aluminium',dims:'56×110×114 mm',weight:'451 g',op_temp:'—',
-   variants:{
-     headers:['Cellular','Wi-Fi','PoE Out','PoE Budget','Part Number'],
-     rows:[
-       ['—','—','✓','240W, 30W/port','XB82-2 Unmanaged PoE Switch'],
-     ]
-   }},
-
-  {id:'xc80',name:'XC80-1',cat:'Switch',cpu:'—',ram:'—',storage:'—',cell:'none',cellular_gen:'none',wifi:'none',rs485:false,rs232:false,ip:'',power:'9–30 VDC',ports:8,os:'—',desc:'8-port fast ethernet unmanaged PoE switch, 240W budget, DIN rail',housing:'Sheet Metal',dims:'45×110×95 mm',weight:'386 g',op_temp:'—',
-   variants:{
-     headers:['Cellular','Wi-Fi','PoE Out','PoE Budget','Part Number'],
-     rows:[
-       ['—','—','✓','240W, 30W/port','XC-80-1 Unmanaged PoE Switch'],
-     ]
-   }},
-
-  {id:'xd50',name:'XD50-1',cat:'Switch',cpu:'—',ram:'—',storage:'—',cell:'none',cellular_gen:'none',wifi:'none',rs485:false,rs232:false,ip:'',power:'9–30 VDC',ports:5,os:'—',desc:'5-port fast ethernet unmanaged PoE switch, 240W budget, compact',housing:'Sheet Metal',dims:'27×112×94 mm',weight:'307 g',op_temp:'—',
-   variants:{
-     headers:['Cellular','Wi-Fi','PoE Out','PoE Budget','Part Number'],
-     rows:[
-       ['—','—','✓','240W, 30W/port','XD50-1 Unmanaged PoE Switch'],
-     ]
-   }},
-
-  {id:'xf100',name:'XF100-1',cat:'Switch',cpu:'—',ram:'—',storage:'—',cell:'none',cellular_gen:'none',wifi:'none',rs485:false,rs232:false,ip:'',power:'9–30 VDC',ports:10,os:'—',desc:'10-port fast ethernet unmanaged PoE switch, 240W budget, DIN rail',housing:'Sheet Metal',dims:'45×116×90 mm',weight:'416 g',op_temp:'—',
-   variants:{
-     headers:['Cellular','Wi-Fi','PoE Out','PoE Budget','Part Number'],
-     rows:[
-       ['—','—','✓','240W, 30W/port','XF-100-1 Unmanaged PoE Switch'],
-     ]
-   }},
-
-  {id:'xg82',name:'XG-82-2L',cat:'Switch',cpu:'—',ram:'—',storage:'—',cell:'none',cellular_gen:'none',wifi:'none',rs485:false,rs232:false,ip:'',power:'44–57 VDC',ports:10,os:'—',desc:'8-port gigabit managed L2 PoE switch + 2× SFP, 240W budget, VLAN, QoS',housing:'Industrial Aluminium',dims:'200×120×55 mm',weight:'675 g',op_temp:'—',
-   variants:{
-     headers:['Cellular','Wi-Fi','PoE Out','PoE Budget','Part Number'],
-     rows:[
-       ['—','—','✓','240W','XG82-2L Gigabit Ethernet Managed Switch'],
-     ]
-   }},
-
-  {id:'pc3xx',name:'PC3XX',cat:'Switch',cpu:'MediaTek MT7628, 128 MB DDR2',ram:'128 MB DDR2',storage:'32 MB Flash',cell:'none',cellular_gen:'none',wifi:'WiFi24',rs485:true,rs232:false,ip:'',power:'12–24 VDC',ports:1,os:'OpenWRT Linux',desc:'Serial-to-Ethernet converter with 2× RS485 and optional Wi-Fi 2.4 GHz',housing:'Sheet Metal',dims:'80×26×78 mm',weight:'400 g',op_temp:'0–50 °C',
-   variants:{
-     headers:['Cellular','Wi-Fi','RS485','No. of RS485 Ports','Part Number'],
-     rows:[
-       ['—','—','✓','1','PC310'],
-       ['—','—','✓','2','PC311'],
-       ['—','Wi-Fi 2.4','✓','1','PC312'],
-     ]
-   }},
-
-  {id:'multimeter',name:'Multi-Function Meter',cat:'Energy Meter',cpu:'—',ram:'—',storage:'—',cell:'none',cellular_gen:'none',wifi:'none',rs485:false,rs232:false,ip:'',power:'85–270V AC/DC',ports:0,os:'—',desc:'3-phase panel meter: voltage (LL/LN), current, kW, kWh, kVA, kVAR, PF, Hz — data storage + RTC',housing:'Panel mount',dims:'—',weight:'—',op_temp:'—',
-   variants:null},
-
-  {id:'dcmeter',name:'DC Meter',cat:'Energy Meter',cpu:'—',ram:'—',storage:'—',cell:'none',cellular_gen:'none',wifi:'none',rs485:true,rs232:false,ip:'',power:'20–60 VDC self-powered',ports:0,os:'—',desc:'DC energy meter: 1-channel voltage + 4-channel current (up to 200A), RS485 Modbus, LCD display',housing:'Panel mount',dims:'—',weight:'—',op_temp:'—',
-   variants:null},
-
-  {id:'acmeter',name:'AC Meter',cat:'Energy Meter',cpu:'—',ram:'—',storage:'—',cell:'none',cellular_gen:'none',wifi:'none',rs485:true,rs232:false,ip:'',power:'48 VDC',ports:0,os:'—',desc:'3-phase AC meter: V, A, kW, kVA, PF, frequency — RS485 Modbus with 2000V isolation',housing:'Panel mount',dims:'—',weight:'—',op_temp:'-10–55 °C',
-   variants:null},
-
-  {id:'bcpmeter',name:'Branch Circuit Power Meter',cat:'Energy Meter',cpu:'—',ram:'—',storage:'—',cell:'none',cellular_gen:'none',wifi:'none',rs485:true,rs232:false,ip:'',power:'85–270V AC/DC',ports:0,os:'—',desc:'Single and 3-phase branch circuit meter with RS485 Modbus, DIN rail, LCD + LED indicators',housing:'DIN rail',dims:'185×110×30 mm',weight:'750 g',op_temp:'0–50 °C',
-   variants:null},
-
-  {id:'mcx',name:'MC-X (Media Converter)',cat:'Other',cpu:'—',ram:'—',storage:'—',cell:'none',cellular_gen:'none',wifi:'none',rs485:false,rs232:false,ip:'',power:'5–12 VDC',ports:2,os:'—',desc:'Gigabit media converter RJ45 ↔ fiber (SC duplex), up to 10 km, single-mode',housing:'Steel Metal',dims:'92×66×26 mm',weight:'187 g',op_temp:'0–70 °C',
-   variants:{
-     headers:['Interface','Mode','Max Distance','Part Number'],
-     rows:[
-       ['1× RJ45 + 1× Fiber SC','Single-mode','5 km','ISMC1-SD851G-S5'],
-       ['1× RJ45 + 1× Fiber SC','Single-mode','10 km','ISMC1-SD311G-10'],
-       ['1× RJ45 + 1× Fiber SC','Single-mode','20 km','SMC1-SD311G-20'],
-     ]
-   }},
-
-  {id:'rn50pcba',name:'RN50-PCBA',cat:'Other',cpu:'MediaTek MT7621, 512 MB DDR3',ram:'256/512 MB DDR3',storage:'32/64 MB Flash',cell:'none',cellular_gen:'none',wifi:'WiFi5',rs485:false,rs232:false,ip:'',power:'Active PoE 44–57 VDC',ports:2,os:'OpenWRT Linux',desc:'PCB-form router module with M12 connectors, PoE powered — for embedded/vehicle use',housing:'Industrial Aluminium',dims:'209×30×154 mm',weight:'—',op_temp:'—',
-   variants:{
-     headers:['Cellular','Wi-Fi','4G/5G','No. of Modems','Part Number'],
-     rows:[
-       ['—','Wi-Fi 5','—','Single','RN 50 PCB-A'],
-     ]
-   }},
-
-  {id:'rvw50',name:'RVW 50 with M12',cat:'Other',cpu:'MediaTek MT7621, 512 MB DDR3',ram:'256/512 MB DDR3',storage:'32/64 MB Flash',cell:'none',cellular_gen:'none',wifi:'WiFi5',rs485:false,rs232:false,ip:'',power:'Active PoE 44–57 VDC',ports:4,os:'OpenWRT Linux',desc:'M12 connector router: 1× WAN + 3× LAN (all M12), Wi-Fi 5 — harsh environment design',housing:'Industrial Aluminium',dims:'209×30×154 mm',weight:'—',op_temp:'—',
-   variants:{
-     headers:['Cellular','Wi-Fi','4G/5G','No. of Modems','Part Number'],
-     rows:[
-       ['—','Wi-Fi 5','—','Single','RVW 50'],
-     ]
-   }},
-
-  {id:'nms',name:'NMS',cat:'Other',cpu:'Software platform',ram:'—',storage:'—',cell:'none',cellular_gen:'none',wifi:'none',rs485:false,rs232:false,ip:'',power:'—',ports:0,os:'Web-based, OpenWRT compatible',desc:'Network management system: remote monitoring, config push, auto-provisioning, alerts — supports 10 to 10,000+ devices',housing:'Software / Cloud',dims:'—',weight:'—',op_temp:'—',
-   variants:null},
-
-  {id:'miniups',name:'Mini UPS',cat:'Other',cpu:'—',ram:'—',storage:'—',cell:'none',cellular_gen:'none',wifi:'none',rs485:false,rs232:false,ip:'',power:'12V in / 12V out (2A/3A)',ports:0,os:'—',desc:'Compact UPS: 19 Whr (3–5 hr) or 38 Whr (9–10 hr) runtime, user-replaceable 18650/26650 cell',housing:'Plastic',dims:'—',weight:'—',op_temp:'—',
-   variants:{
-     headers:['Battery','Capacity','Backup Time','Part Number'],
-     rows:[
-       ['18650 cells','19 Whr','3–5 hours','Mini UPS 19W'],
-       ['26650 cells','38 Whr','9–10 hours','Mini UPS 38W'],
-     ]
-   }},
+const PRODUCTS_DATA = [
+  {
+    "id": "intel-x6425",
+    "name": "Intel X6425",
+    "cat": "Router",
+    "cpu": "Intel X86 Atom X6425E, 4-core up to 3 GHz",
+    "ram": "Up to 32 GB DDR4 3200",
+    "storage": "Up to 1 TB SATA SSD",
+    "cell": "5G",
+    "cellular_gen": "5G",
+    "wifi": "WiFi6",
+    "rs485": false,
+    "rs232": false,
+    "ip": "IP30",
+    "power": "19 / 24 VDC",
+    "ports": 4,
+    "os": "Oracle Linux v9.5 / Ubuntu 23 / Windows 10+",
+    "desc": "High-performance x86 edge compute router with 5G (Telit FN990A28), dual-band Wi-Fi 6, and up to 32 GB RAM",
+    "housing": "Aluminium",
+    "dims": "150×210×65 mm",
+    "weight": "—",
+    "op_temp": "0–50 °C",
+    "variants": null
+  },
+  {
+    "id": "inv-ce-xx",
+    "name": "INV-CE-XX",
+    "cat": "Router",
+    "cpu": "Intel X7425E, 4-core 3.4 GHz",
+    "ram": "Up to 32 GB DDR5",
+    "storage": "Up to 512 GB SSD / 128 GB eMMC",
+    "cell": "4G/5G",
+    "cellular_gen": "5G",
+    "wifi": "WiFi6",
+    "rs485": false,
+    "rs232": false,
+    "ip": "",
+    "power": "12V DC",
+    "ports": 4,
+    "os": "OpenWRT / Ubuntu / Windows 11 / Windows IoT",
+    "desc": "Compact SDWAN / Mini-PC router based on Intel X7 platform with modular 4G/5G modem slot",
+    "housing": "Aluminium",
+    "dims": "150×160×55 mm",
+    "weight": "—",
+    "op_temp": "0–50 °C",
+    "variants": {
+      "note": "Part number format: INV-CX-x7425e-[Type][Display]-[eMMC]-[SSD]-[RAM]-[Modem]. RAM: 1=4 GB … 5=64 GB DDR5 | eMMC: 1=8 GB … 5=128 GB | SSD: 1=128 GB … 4=1 TB | Modem: 0=None, 4=4G, 5=5G | Wi-Fi: 0=None, 6=Wi-Fi 6",
+      "headers": ["Type", "Code", "Description", "Example Part No."],
+      "rows": [
+        ["Mini-PC / NUC", "D", "Compact form-factor desktop/NUC", "INV-CD60-214-H"],
+        ["SDWAN Router", "E", "Software-defined WAN router", "INV-CE65-214-C"],
+        ["Industrial PC", "Ea", "RS485, RS232, 4× DIO", "—"],
+        ["6-Port SDWAN", "Eb", "6× GbE, dual 5G modem support", "—"]
+      ]
+    }
+  },
+  {
+    "id": "inv-cea-xx",
+    "name": "INV-CEA-XX",
+    "cat": "Router",
+    "cpu": "Intel X7425E, 4-core 3.4 GHz",
+    "ram": "Up to 64 GB DDR5",
+    "storage": "Up to 512 GB SSD / 64 GB eMMC",
+    "cell": "4G/5G",
+    "cellular_gen": "5G",
+    "wifi": "WiFi6",
+    "rs485": true,
+    "rs232": true,
+    "ip": "",
+    "power": "12V DC",
+    "ports": 4,
+    "os": "Ubuntu / Oracle Linux / OpenWRT / Windows",
+    "desc": "Industrial PC router with 2× isolated RS485, 2× isolated RS232, 4× isolated DIOs, and optional HDMI",
+    "housing": "Aluminium",
+    "dims": "150×250×55 mm",
+    "weight": "—",
+    "op_temp": "0–50 °C",
+    "variants": {
+      "note": "Part number format: INV-CX-x7425e-[Type][Display]-[eMMC]-[SSD]-[RAM]-[Modem]. RAM: 1=4 GB … 5=64 GB DDR5 | eMMC: 1=8 GB … 5=128 GB | SSD: 1=128 GB … 4=1 TB | Modem: 0=None, 4=4G, 5=5G | Wi-Fi: 0=None, 6=Wi-Fi 6",
+      "headers": ["Type", "Code", "Description", "Example Part No."],
+      "rows": [
+        ["Mini-PC / NUC", "D", "Compact form-factor desktop/NUC", "INV-CD60-214-H"],
+        ["SDWAN Router", "E", "Software-defined WAN router", "INV-CE65-214-C"],
+        ["Industrial PC", "Ea", "RS485, RS232, 4× DIO", "—"],
+        ["6-Port SDWAN", "Eb", "6× GbE, dual 5G modem support", "—"]
+      ]
+    }
+  },
+  {
+    "id": "inv-ceb-xx",
+    "name": "INV-CEB-XX",
+    "cat": "Router",
+    "cpu": "Intel X7425E, 4-core 3.4 GHz",
+    "ram": "Up to 64 GB DDR5",
+    "storage": "Up to 512 GB SSD / 64 GB eMMC",
+    "cell": "4G/5G",
+    "cellular_gen": "5G",
+    "wifi": "WiFi6",
+    "rs485": false,
+    "rs232": true,
+    "ip": "",
+    "power": "12V DC",
+    "ports": 6,
+    "os": "Ubuntu / Oracle / OpenWRT / VyOS",
+    "desc": "6-port SDWAN router with dual 5G modem support and optional RS232",
+    "housing": "Sheet Metal + Al heatsink",
+    "dims": "150×250×55 mm",
+    "weight": "—",
+    "op_temp": "0–50 °C",
+    "variants": {
+      "note": "Part number format: INV-CX-x7425e-[Type][Display]-[eMMC]-[SSD]-[RAM]-[Modem]. RAM: 1=4 GB … 5=64 GB DDR5 | eMMC: 1=8 GB … 5=128 GB | SSD: 1=128 GB … 4=1 TB | Modem: 0=None, 4=4G, 5=5G | Wi-Fi: 0=None, 6=Wi-Fi 6",
+      "headers": ["Type", "Code", "Description", "Example Part No."],
+      "rows": [
+        ["Mini-PC / NUC", "D", "Compact form-factor desktop/NUC", "INV-CD60-214-H"],
+        ["SDWAN Router", "E", "Software-defined WAN router", "INV-CE65-214-C"],
+        ["Industrial PC", "Ea", "RS485, RS232, 4× DIO", "—"],
+        ["6-Port SDWAN", "Eb", "6× GbE, dual 5G modem support", "—"]
+      ]
+    }
+  },
+  {
+    "id": "inv-cd-xx",
+    "name": "INV-CD-XX",
+    "cat": "Router",
+    "cpu": "Intel X7425E, 4-core 3.4 GHz",
+    "ram": "Up to 64 GB DDR5",
+    "storage": "Up to 512 GB SSD / 64 GB eMMC",
+    "cell": "4G/5G",
+    "cellular_gen": "5G",
+    "wifi": "WiFi6",
+    "rs485": false,
+    "rs232": true,
+    "ip": "",
+    "power": "12V DC",
+    "ports": 2,
+    "os": "Oracle Linux / Ubuntu 23 / Windows 10+",
+    "desc": "Ultra-compact mini-PC with dual HDMI, LVDS display, 2× USB 3.0, 4× USB 2.0",
+    "housing": "Aluminium",
+    "dims": "150×123×35 mm",
+    "weight": "995 g",
+    "op_temp": "0–50 °C",
+    "variants": {
+      "note": "Part number format: INV-CX-x7425e-[Type][Display]-[eMMC]-[SSD]-[RAM]-[Modem]. RAM: 1=4 GB … 5=64 GB DDR5 | eMMC: 1=8 GB … 5=128 GB | SSD: 1=128 GB … 4=1 TB | Modem: 0=None, 4=4G, 5=5G | Wi-Fi: 0=None, 6=Wi-Fi 6",
+      "headers": ["Type", "Code", "Description", "Example Part No."],
+      "rows": [
+        ["Mini-PC / NUC", "D", "Compact form-factor desktop/NUC", "INV-CD60-214-H"],
+        ["SDWAN Router", "E", "Software-defined WAN router", "INV-CE65-214-C"],
+        ["Industrial PC", "Ea", "RS485, RS232, 4× DIO", "—"],
+        ["6-Port SDWAN", "Eb", "6× GbE, dual 5G modem support", "—"]
+      ]
+    }
+  },
+  {
+    "id": "rtsxx",
+    "name": "RTSXX",
+    "cat": "Router",
+    "cpu": "MediaTek MT7981, 1 GB DDR4, 128 MB NAND",
+    "ram": "1 GB DDR4",
+    "storage": "128 MB NAND",
+    "cell": "4G/5G",
+    "cellular_gen": "5G",
+    "wifi": "WiFi6",
+    "rs485": false,
+    "rs232": false,
+    "ip": "",
+    "power": "9–30 VDC",
+    "ports": 7,
+    "os": "OpenWRT Linux",
+    "desc": "Dual-modem 5G/4G router: 4× LAN + 1× WAN + 2× SFP, dual-band Wi-Fi 6",
+    "housing": "Sheet Metal",
+    "dims": "190×45×120 mm",
+    "weight": "700 g",
+    "op_temp": "0–50 °C",
+    "variants": {
+      "headers": ["Cellular", "Wi-Fi", "4G/5G", "No. of Modems", "Part Number"],
+      "rows": [
+        ["—", "—", "—", "—", "RTS00"],
+        ["✓", "—", "4G", "Single", "RTS04-1"],
+        ["✓", "—", "4G", "Dual", "RTS04-2"],
+        ["✓", "—", "5G", "Single", "RTS05-1"],
+        ["✓", "—", "5G", "Dual", "RTS05-2"],
+        ["—", "Wi-Fi 6", "—", "—", "RTS-60"],
+        ["✓", "Wi-Fi 6", "4G", "Single", "RTS64-1"],
+        ["✓", "Wi-Fi 6", "4G", "Dual", "RTS64-2"],
+        ["✓", "Wi-Fi 6", "5G", "Single", "RTS65-1"],
+        ["✓", "Wi-Fi 6", "5G", "Dual", "RTS65-2"]
+      ]
+    }
+  },
+  {
+    "id": "ru60",
+    "name": "RU60",
+    "cat": "Router",
+    "cpu": "MediaTek MT7981, 1 GB DDR4, 1 Gb NAND",
+    "ram": "1 GB DDR4",
+    "storage": "1 Gb NAND",
+    "cell": "none",
+    "cellular_gen": "none",
+    "wifi": "WiFi6",
+    "rs485": false,
+    "rs232": false,
+    "ip": "IP30",
+    "power": "12 VDC",
+    "ports": 2,
+    "os": "OpenWRT Linux",
+    "desc": "Ceiling-mount Wi-Fi 6 access point with AP/Station/EasyMesh support, no cellular",
+    "housing": "Metal",
+    "dims": "209×30×154 mm",
+    "weight": "950 g",
+    "op_temp": "-20–60 °C",
+    "variants": {
+      "headers": ["Cellular", "Wi-Fi", "4G/5G", "No. of Modems", "Part Number"],
+      "rows": [
+        ["—", "Wi-Fi 6", "—", "—", "RU60"]
+      ]
+    }
+  },
+  {
+    "id": "roxx",
+    "name": "RO XX",
+    "cat": "Router",
+    "cpu": "MediaTek MT7981, 1 GB DDR4, 128 MB NAND",
+    "ram": "1 GB DDR4",
+    "storage": "128 MB NAND",
+    "cell": "4G/5G",
+    "cellular_gen": "5G",
+    "wifi": "WiFi6",
+    "rs485": false,
+    "rs232": false,
+    "ip": "",
+    "power": "9–30 VDC",
+    "ports": 7,
+    "os": "OpenWRT 21/23",
+    "desc": "Dual-WAN 5G router with Easy Mesh, 4× LAN + 2× WAN + 1× SFP",
+    "housing": "Sheet Metal",
+    "dims": "210×25×135 mm",
+    "weight": "950 g",
+    "op_temp": "0–50 °C",
+    "variants": {
+      "headers": ["Cellular", "Wi-Fi", "4G/5G", "No. of Modems", "Part Number"],
+      "rows": [
+        ["✓", "Wi-Fi 6", "5G", "Dual", "RO65-2"],
+        ["✓", "Wi-Fi 6", "5G", "Single", "RO65-1"],
+        ["—", "Wi-Fi 6", "—", "—", "RO60"],
+        ["✓", "Wi-Fi 6", "4G", "Dual", "RO64-2"],
+        ["✓", "Wi-Fi 6", "4G", "Single", "RO64-1"]
+      ]
+    }
+  },
+  {
+    "id": "rtxx",
+    "name": "RTXX",
+    "cat": "Router",
+    "cpu": "MediaTek MT7981, 1 GB DDR4, 128 MB NAND",
+    "ram": "1 GB DDR4",
+    "storage": "128 MB NAND",
+    "cell": "4G/5G",
+    "cellular_gen": "5G",
+    "wifi": "WiFi6",
+    "rs485": false,
+    "rs232": false,
+    "ip": "",
+    "power": "9–30 VDC",
+    "ports": 5,
+    "os": "OpenWRT Linux",
+    "desc": "Compact 5G/4G router with dual M.2 modem slots, dual-SIM, Easy Mesh Wi-Fi 6",
+    "housing": "Sheet Metal",
+    "dims": "110×55×144 mm",
+    "weight": "480 g",
+    "op_temp": "0–50 °C",
+    "variants": {
+      "headers": ["Cellular", "Wi-Fi", "4G/5G", "No. of Modems", "Part Number"],
+      "rows": [
+        ["—", "—", "—", "—", "RT00"],
+        ["✓", "—", "4G", "Single", "RT04-1"],
+        ["✓", "—", "4G", "Dual", "RT04-2"],
+        ["✓", "—", "5G", "Single", "RT05-1"],
+        ["✓", "—", "5G", "Dual", "RT05-2"],
+        ["—", "Wi-Fi 6", "—", "—", "RT-60"],
+        ["✓", "Wi-Fi 6", "4G", "Single", "RT64-1"],
+        ["✓", "Wi-Fi 6", "4G", "Dual", "RT64-2"],
+        ["✓", "Wi-Fi 6", "5G", "Single", "RT65-1"],
+        ["✓", "Wi-Fi 6", "5G", "Dual", "RT65-2"]
+      ]
+    }
+  },
+  {
+    "id": "rvxx",
+    "name": "RVXX",
+    "cat": "Router",
+    "cpu": "MediaTek MT7621, 512 MB DDR3, 32 MB Flash",
+    "ram": "512 MB DDR3",
+    "storage": "32 MB Flash",
+    "cell": "4G",
+    "cellular_gen": "4G",
+    "wifi": "WiFi5",
+    "rs485": false,
+    "rs232": false,
+    "ip": "",
+    "power": "12 VDC",
+    "ports": 5,
+    "os": "OpenWRT Linux",
+    "desc": "4G dual-SIM router with Wi-Fi 5, 1× WAN + 4× LAN, DIN rail mount",
+    "housing": "Industrial Aluminium",
+    "dims": "110×60×95 mm",
+    "weight": "390 g",
+    "op_temp": "0–50 °C",
+    "variants": {
+      "headers": ["Cellular", "Wi-Fi", "4G/5G", "No. of Modems", "Part Number"],
+      "rows": [
+        ["✓", "Wi-Fi 5", "4G", "Single", "RV54-1"],
+        ["✓", "Wi-Fi 5", "4G", "Dual", "RV54-2"],
+        ["✓", "—", "4G", "Single", "RV04-1"],
+        ["✓", "—", "4G", "Dual", "RV04-2"],
+        ["—", "Wi-Fi 5", "—", "—", "RV50"]
+      ]
+    }
+  },
+  {
+    "id": "rv00",
+    "name": "RV00",
+    "cat": "Router",
+    "cpu": "MediaTek MT7621, 512 MB DDR3, 32 MB Flash",
+    "ram": "512 MB DDR3",
+    "storage": "32 MB Flash",
+    "cell": "none",
+    "cellular_gen": "none",
+    "wifi": "none",
+    "rs485": false,
+    "rs232": false,
+    "ip": "",
+    "power": "12 VDC",
+    "ports": 5,
+    "os": "OpenWRT Linux",
+    "desc": "Basic wired router, no cellular, no Wi-Fi — 1× WAN + 4× LAN, built-in RTC",
+    "housing": "Industrial Aluminium",
+    "dims": "110×26×95 mm",
+    "weight": "200 g",
+    "op_temp": "0–50 °C",
+    "variants": {
+      "headers": ["Cellular", "Wi-Fi", "4G/5G", "No. of Modems", "Part Number"],
+      "rows": [
+        ["—", "—", "—", "—", "RV00"]
+      ]
+    }
+  },
+  {
+    "id": "rdxx",
+    "name": "RDxx",
+    "cat": "Router",
+    "cpu": "MediaTek MT7628, 128 MB DDR2, 32 MB Flash",
+    "ram": "128 MB DDR2",
+    "storage": "32 MB Flash",
+    "cell": "4G",
+    "cellular_gen": "4G",
+    "wifi": "WiFi24",
+    "rs485": true,
+    "rs232": true,
+    "ip": "",
+    "power": "9–30 VDC",
+    "ports": 5,
+    "os": "OpenWRT Linux",
+    "desc": "4G router with RS485, RS232, gateway software option; 1× WAN + 4× LAN",
+    "housing": "Sheet Metal",
+    "dims": "123×28×121 mm",
+    "weight": "370 g",
+    "op_temp": "0–50 °C",
+    "variants": {
+      "headers": ["Wi-Fi", "Cellular", "4G/5G", "RS485", "RS232", "Gateway SW", "Part Number"],
+      "rows": [
+        ["✓", "✓", "4G", "—", "—", "—", "RD44-A"],
+        ["—", "✓", "4G", "—", "—", "—", "RD04-A"],
+        ["—", "✓", "4G", "—", "—", "✓", "RD44-B"],
+        ["—", "✓", "4G", "✓", "—", "✓", "RD04-B"],
+        ["✓", "✓", "4G", "—", "✓", "✓", "RD44-C"],
+        ["—", "✓", "4G", "✓", "✓", "✓", "RD04-C"],
+        ["—", "—", "—", "—", "—", "—", "RDS00"],
+        ["✓", "✓", "4G", "✓", "✓", "✓", "RDS44"]
+      ]
+    }
+  },
+  {
+    "id": "rexx",
+    "name": "REXX",
+    "cat": "Router",
+    "cpu": "MediaTek MT7628, 256 MB DDR2, 32 MB Flash",
+    "ram": "256 MB DDR2",
+    "storage": "32 MB Flash",
+    "cell": "4G",
+    "cellular_gen": "4G",
+    "wifi": "WiFi24",
+    "rs485": false,
+    "rs232": false,
+    "ip": "",
+    "power": "12 VDC",
+    "ports": 4,
+    "os": "OpenWRT Linux",
+    "desc": "Dual-modem 4G/3G/2G router with Wi-Fi 2.4 GHz, 1× WAN + 3× LAN",
+    "housing": "Sheet Metal",
+    "dims": "123×28×121 mm",
+    "weight": "360 g",
+    "op_temp": "0–50 °C",
+    "variants": {
+      "headers": ["Cellular", "Wi-Fi", "4G/5G", "No. of Modems", "Part Number"],
+      "rows": [
+        ["✓", "Wi-Fi 2.4", "4G", "Dual", "RE44"],
+        ["✓", "—", "4G", "Dual", "RE04"]
+      ]
+    }
+  },
+  {
+    "id": "ri44",
+    "name": "RI44",
+    "cat": "Router",
+    "cpu": "Qualcomm QCA9531, 128 MB DDR, 32 MB Flash",
+    "ram": "128 MB DDR",
+    "storage": "32 MB Flash",
+    "cell": "4G",
+    "cellular_gen": "4G",
+    "wifi": "WiFi24",
+    "rs485": true,
+    "rs232": false,
+    "ip": "",
+    "power": "-48 VDC",
+    "ports": 5,
+    "os": "OpenWRT Linux",
+    "desc": "-48V telecom-grade router with 2× RS485, passive PoE WAN port",
+    "housing": "Sheet Metal",
+    "dims": "281×34×119 mm",
+    "weight": "985 g",
+    "op_temp": "0–50 °C",
+    "variants": {
+      "headers": ["Cellular", "Wi-Fi", "4G/5G", "RS485", "No. of Modems", "Part Number"],
+      "rows": [
+        ["✓", "Wi-Fi 2.4", "4G", "✓", "Single", "RI44"]
+      ]
+    }
+  },
+  {
+    "id": "mt7621odu",
+    "name": "MT7621-01 ODU",
+    "cat": "Router",
+    "cpu": "MediaTek MT7621, 512 MB DDR2, 32 MB Flash",
+    "ram": "512 MB DDR2",
+    "storage": "32 MB Flash",
+    "cell": "4G",
+    "cellular_gen": "4G",
+    "wifi": "none",
+    "rs485": false,
+    "rs232": false,
+    "ip": "IP66",
+    "power": "Active PoE 48–57V",
+    "ports": 2,
+    "os": "OpenWRT Linux",
+    "desc": "Outdoor 4G unit, IP66, wall/pole mount, PoE powered — ideal for outdoor tower sites",
+    "housing": "ABS/PC IP66",
+    "dims": "140×75×224 mm",
+    "weight": "950 g",
+    "op_temp": "0–50 °C",
+    "variants": {
+      "headers": ["Cellular", "Wi-Fi", "4G/5G", "No. of Modems", "Part Number"],
+      "rows": [
+        ["✓", "—", "4G", "Single", "MT7621-01 ODU"]
+      ]
+    }
+  },
+  {
+    "id": "rt65odu",
+    "name": "RT65-ODU",
+    "cat": "Router",
+    "cpu": "MediaTek MT7981, 1 GB DDR4, 128 MB NAND",
+    "ram": "1 GB DDR4",
+    "storage": "128 MB NAND",
+    "cell": "5G",
+    "cellular_gen": "5G",
+    "wifi": "WiFi6",
+    "rs485": false,
+    "rs232": false,
+    "ip": "IP67",
+    "power": "9–30 VDC",
+    "ports": 5,
+    "os": "OpenWRT Linux",
+    "desc": "Outdoor 5G router with IP67 enclosure, Wi-Fi 6 Easy Mesh, 4× LAN + 1× WAN",
+    "housing": "IP67 Enclosure",
+    "dims": "110×55×144 mm",
+    "weight": "480 g",
+    "op_temp": "0–50 °C",
+    "variants": {
+      "headers": ["Cellular", "Wi-Fi", "4G/5G", "No. of Modems", "Part Number"],
+      "rows": [
+        ["✓", "Wi-Fi 6", "5G", "Single", "RT65-ODU"]
+      ]
+    }
+  },
+  {
+    "id": "idf",
+    "name": "IDF",
+    "cat": "Router",
+    "cpu": "MediaTek MT7621, 512 MB DDR, 32 MB Flash",
+    "ram": "512 MB DDR",
+    "storage": "32 MB Flash",
+    "cell": "4G/5G",
+    "cellular_gen": "5G",
+    "wifi": "WiFi5",
+    "rs485": true,
+    "rs232": false,
+    "ip": "",
+    "power": "-48 VDC",
+    "ports": 4,
+    "os": "OpenWRT Linux",
+    "desc": "-48V telecom router with 5G dual-SIM, RS485, Wi-Fi 5 — designed for tower base stations",
+    "housing": "Industrial Aluminium",
+    "dims": "110×44×94 mm",
+    "weight": "500 g",
+    "op_temp": "-20–60 °C",
+    "variants": {
+      "headers": ["Cellular", "Wi-Fi", "4G/5G", "No. of Modems", "Part Number"],
+      "rows": [
+        ["✓", "Wi-Fi 5", "5G", "Single", "ID55-B"],
+        ["✓", "Wi-Fi 5", "5G", "Single", "ID55"],
+        ["✓", "Wi-Fi 5", "4G", "Single", "ID54-B"],
+        ["✓", "Wi-Fi 5", "4G", "Single", "ID54"]
+      ]
+    }
+  },
+  {
+    "id": "iexx",
+    "name": "IEXX-X-XX",
+    "cat": "Gateway",
+    "cpu": "MediaTek MT7628, 128 MB DDR2, 32 MB Flash",
+    "ram": "128 MB DDR2",
+    "storage": "32 MB Flash",
+    "cell": "4G",
+    "cellular_gen": "4G",
+    "wifi": "WiFi24",
+    "rs485": true,
+    "rs232": false,
+    "ip": "",
+    "power": "9–36 VDC",
+    "ports": 2,
+    "os": "OpenWRT Linux",
+    "desc": "Compact IoT gateway with eSIM support, RS485, 2× configurable DIO",
+    "housing": "Metal",
+    "dims": "97×28×84 mm",
+    "weight": "280 g",
+    "op_temp": "-20–60 °C",
+    "variants": {
+      "headers": ["Cellular", "Wi-Fi", "4G/5G", "No. of Modems", "Part Number"],
+      "rows": [
+        ["✓", "Wi-Fi", "4G", "Single", "IE44-A"],
+        ["✓", "Wi-Fi", "4G", "Single", "IE44-C"],
+        ["✓", "Wi-Fi", "4G", "Single", "IE44-A-EX1 (e-SIM)"]
+      ]
+    }
+  },
+  {
+    "id": "iaxx",
+    "name": "IAXX-X",
+    "cat": "Gateway",
+    "cpu": "MediaTek MT7628, 128 MB DDR2, 32 MB Flash",
+    "ram": "128 MB DDR2",
+    "storage": "32 MB Flash",
+    "cell": "4G",
+    "cellular_gen": "4G",
+    "wifi": "WiFi24",
+    "rs485": true,
+    "rs232": false,
+    "ip": "IP30",
+    "power": "9–30 VDC",
+    "ports": 2,
+    "os": "OpenWRT Linux",
+    "desc": "4G gateway with RS485, dual-SIM, optional 4 GB eMMC storage",
+    "housing": "Industrial Aluminium",
+    "dims": "110×44×94 mm",
+    "weight": "280 g",
+    "op_temp": "-20–60 °C",
+    "variants": {
+      "headers": ["Cellular", "Wi-Fi", "4G/5G", "RS485", "No. of Modems", "Part Number"],
+      "rows": [
+        ["✓", "Wi-Fi 2.4", "4G", "✓", "Single", "IA44-C"],
+        ["✓", "Wi-Fi 2.4", "4G", "✓", "Single", "IA44-B (4 GB eMMC)"],
+        ["✓", "Wi-Fi 2.4", "4G", "—", "Single", "IA44-A"],
+        ["—", "Wi-Fi 2.4", "—", "✓", "—", "IA40-C"]
+      ]
+    }
+  },
+  {
+    "id": "rfnxx",
+    "name": "RFNXX",
+    "cat": "Gateway",
+    "cpu": "MediaTek MT7628, 128 MB DDR2, 32 MB Flash",
+    "ram": "128 MB DDR2",
+    "storage": "32 MB Flash",
+    "cell": "4G",
+    "cellular_gen": "4G",
+    "wifi": "WiFi24",
+    "rs485": true,
+    "rs232": false,
+    "ip": "IP30",
+    "power": "9–30 VDC",
+    "ports": 2,
+    "os": "OpenWRT Linux",
+    "desc": "4G gateway with configurable RS485 or DI/DO — choose interface at order time",
+    "housing": "Industrial Aluminium",
+    "dims": "112×35×99 mm",
+    "weight": "297 g",
+    "op_temp": "0–50 °C",
+    "variants": {
+      "headers": ["Cellular", "Wi-Fi", "RS485", "DIO", "4G/5G", "No. of Modems", "Part Number"],
+      "rows": [
+        ["✓", "Wi-Fi 2.4", "—", "—", "4G", "Single", "RFN44-A"],
+        ["✓", "Wi-Fi 2.4", "✓", "—", "4G", "Single", "RFN44-B (RS485)"],
+        ["✓", "Wi-Fi 2.4", "—", "✓", "4G", "Single", "RFN44-C (1× DI, 1× DO)"]
+      ]
+    }
+  },
+  {
+    "id": "iabxx",
+    "name": "IABXX-X",
+    "cat": "Gateway",
+    "cpu": "MediaTek MT7628, 128 MB DDR2, 32 MB Flash",
+    "ram": "128 MB DDR2",
+    "storage": "32 MB Flash",
+    "cell": "4G",
+    "cellular_gen": "4G",
+    "wifi": "WiFi24",
+    "rs485": true,
+    "rs232": true,
+    "ip": "",
+    "power": "9–30 VDC",
+    "ports": 2,
+    "os": "OpenWRT Linux",
+    "desc": "Advanced gateway: RS485, RS232, 4× DIO, 2× AI, ISO 24V out, USB host",
+    "housing": "Industrial Aluminium",
+    "dims": "110×44×94 mm",
+    "weight": "427 g",
+    "op_temp": "0–50 °C",
+    "variants": {
+      "headers": ["Cellular", "Wi-Fi", "RS485", "RS232", "4G/5G", "No. of Modems", "Part Number"],
+      "rows": [
+        ["✓", "Wi-Fi 2.4", "✓", "✓", "4G", "Single", "IAB44-C"],
+        ["✓", "Wi-Fi 2.4", "✓", "✓", "4G", "Single", "IAB44-B (4 GB eMMC)"],
+        ["✓", "—", "✓", "✓", "4G", "Single", "IAB04-B (4 GB eMMC)"],
+        ["✓", "—", "✓", "✓", "4G", "Single", "IAB04-C"]
+      ]
+    }
+  },
+  {
+    "id": "iacxx",
+    "name": "IACXX-X",
+    "cat": "Gateway",
+    "cpu": "MediaTek MT7628, 128 MB DDR2, 32 MB Flash",
+    "ram": "128 MB DDR2",
+    "storage": "32 MB Flash",
+    "cell": "4G",
+    "cellular_gen": "4G",
+    "wifi": "WiFi24",
+    "rs485": true,
+    "rs232": false,
+    "ip": "",
+    "power": "9–30 VDC",
+    "ports": 5,
+    "os": "OpenWRT Linux",
+    "desc": "4-LAN gateway with RS485 and 2× configurable DIO",
+    "housing": "Industrial Aluminium",
+    "dims": "110×44×94 mm",
+    "weight": "400 g",
+    "op_temp": "-20–60 °C",
+    "variants": {
+      "headers": ["Cellular", "Wi-Fi", "RS485", "4G/5G", "No. of Modems", "Part Number"],
+      "rows": [
+        ["✓", "Wi-Fi 2.4", "✓", "4G", "Single", "IAC44-C"],
+        ["✓", "Wi-Fi 2.4", "—", "4G", "Single", "IAC44-A"],
+        ["✓", "—", "—", "4G", "Single", "IAC04-A"],
+        ["✓", "—", "✓", "4G", "Single", "IAC04-C"]
+      ]
+    }
+  },
+  {
+    "id": "iafxx",
+    "name": "IAFXX-X",
+    "cat": "Gateway",
+    "cpu": "MediaTek MT7628, 128 MB DDR2, 32 MB Flash",
+    "ram": "128 MB DDR2",
+    "storage": "32 MB Flash",
+    "cell": "4G",
+    "cellular_gen": "4G",
+    "wifi": "WiFi24",
+    "rs485": true,
+    "rs232": false,
+    "ip": "",
+    "power": "-48 VDC",
+    "ports": 2,
+    "os": "OpenWRT Linux",
+    "desc": "-48V gateway with 4× AI inputs, 2× RS485, DI/DO, pulse input, USB host",
+    "housing": "Industrial Aluminium",
+    "dims": "110×44×94 mm",
+    "weight": "400 g",
+    "op_temp": "—",
+    "variants": {
+      "headers": ["Cellular", "Wi-Fi", "4G/5G", "RS485", "No. of Modems", "Part Number"],
+      "rows": [
+        ["✓", "Wi-Fi 2.4", "4G", "—", "Single", "IAF44-C1"],
+        ["✓", "Wi-Fi 2.4", "4G", "✓", "Single", "IAF44-C2"],
+        ["✓", "—", "4G", "✓", "Single", "IAF04-C2"],
+        ["—", "—", "4G", "—", "Single", "IAF04-C1"]
+      ]
+    }
+  },
+  {
+    "id": "idxx",
+    "name": "IDXX-X",
+    "cat": "Gateway",
+    "cpu": "MediaTek MT7621, 512 MB DDR3, 64 MB Flash",
+    "ram": "512 MB DDR3",
+    "storage": "64 MB Flash",
+    "cell": "4G",
+    "cellular_gen": "4G",
+    "wifi": "WiFi5",
+    "rs485": true,
+    "rs232": false,
+    "ip": "",
+    "power": "9–30 VDC",
+    "ports": 4,
+    "os": "OpenWRT Linux",
+    "desc": "Dual-band Wi-Fi 5 gateway with RS485 and optional 4 GB eMMC",
+    "housing": "Industrial Aluminium",
+    "dims": "110×44×94 mm",
+    "weight": "400 g",
+    "op_temp": "-20–60 °C",
+    "variants": {
+      "headers": ["Cellular", "Wi-Fi", "4G/5G", "RS485", "No. of Modems", "Part Number"],
+      "rows": [
+        ["✓", "Wi-Fi 5", "4G", "✓", "Single", "ID55-B (4 GB eMMC)"],
+        ["✓", "—", "4G", "—", "Single", "ID55"],
+        ["✓", "Wi-Fi 5", "4G", "✓", "Single", "ID54-B (4 GB eMMC)"],
+        ["✓", "—", "4G", "—", "Single", "ID54"]
+      ]
+    }
+  },
+  {
+    "id": "idbxx",
+    "name": "IDBXX-X",
+    "cat": "Gateway",
+    "cpu": "MediaTek MT7621, 512 MB DDR3, 32 MB Flash",
+    "ram": "512 MB DDR3",
+    "storage": "32 MB Flash",
+    "cell": "4G/5G",
+    "cellular_gen": "5G",
+    "wifi": "WiFi5",
+    "rs485": true,
+    "rs232": true,
+    "ip": "",
+    "power": "9–30 VDC",
+    "ports": 4,
+    "os": "OpenWRT Linux",
+    "desc": "5G gateway with RS485, RS232, 4× DI/O, 2× AI — heavy I/O variant",
+    "housing": "Industrial Aluminium",
+    "dims": "110×44×94 mm",
+    "weight": "400 g",
+    "op_temp": "-20–60 °C",
+    "variants": {
+      "headers": ["Cellular", "Wi-Fi", "4G/5G", "RS485", "RS232", "No. of Modems", "Part Number"],
+      "rows": [
+        ["✓", "Wi-Fi 5", "5G", "✓", "✓", "Single", "IDB55-B"],
+        ["✓", "Wi-Fi 5", "5G", "—", "—", "Single", "IDB55"],
+        ["✓", "Wi-Fi 5", "4G", "✓", "✓", "Single", "IDB54-B"],
+        ["✓", "Wi-Fi 5", "4G", "—", "—", "Single", "IDB54"]
+      ]
+    }
+  },
+  {
+    "id": "isense",
+    "name": "iSense Violet",
+    "cat": "Gateway",
+    "cpu": "Dual Core 0.88 GHz, 512 MB RAM, eMMC up to 32 GB",
+    "ram": "512 MB + eMMC up to 32 GB",
+    "storage": "32 MB Flash",
+    "cell": "4G",
+    "cellular_gen": "4G",
+    "wifi": "WiFi24",
+    "rs485": true,
+    "rs232": true,
+    "ip": "",
+    "power": "20–60 VDC",
+    "ports": 4,
+    "os": "Linux OS",
+    "desc": "Heavy industrial controller: 24× DI, 8× DO (SPDT relay), 4× RS485, 8× AI, 2× RTD, onboard temperature sensor",
+    "housing": "Sheet Metal",
+    "dims": "—",
+    "weight": "1 kg",
+    "op_temp": "-10–70 °C",
+    "variants": {
+      "headers": ["Wi-Fi", "Cellular", "4G/5G", "RS485", "RS232", "DIO Count", "Part Number"],
+      "rows": [
+        ["✓", "✓", "4G", "✓", "✓", "24", "iSense Violet Plus Pro"],
+        ["✓", "✓", "4G", "✓", "✓", "12", "iSense Green Plus Pro"],
+        ["✓", "✓", "4G", "✓", "✓", "6", "iSense Blue Plus Pro"]
+      ]
+    }
+  },
+  {
+    "id": "xa82",
+    "name": "XA82-2",
+    "cat": "Switch",
+    "cpu": "—",
+    "ram": "—",
+    "storage": "—",
+    "cell": "none",
+    "cellular_gen": "none",
+    "wifi": "none",
+    "rs485": false,
+    "rs232": false,
+    "ip": "",
+    "power": "9–57 VDC",
+    "ports": 10,
+    "os": "—",
+    "desc": "8-port gigabit unmanaged PoE switch + 2× SFP, 240W PoE budget, 30W per port",
+    "housing": "Industrial Aluminium",
+    "dims": "56×110×114 mm",
+    "weight": "300 g",
+    "op_temp": "—",
+    "variants": {
+      "headers": ["Cellular", "Wi-Fi", "PoE Out", "PoE Budget", "Part Number"],
+      "rows": [
+        ["—", "—", "✓", "240W, 30W/port", "XA82-2 Unmanaged PoE Switch"]
+      ]
+    }
+  },
+  {
+    "id": "xb82",
+    "name": "XB82-2",
+    "cat": "Switch",
+    "cpu": "—",
+    "ram": "—",
+    "storage": "—",
+    "cell": "none",
+    "cellular_gen": "none",
+    "wifi": "none",
+    "rs485": false,
+    "rs232": false,
+    "ip": "",
+    "power": "9–57 VDC",
+    "ports": 10,
+    "os": "—",
+    "desc": "8-port gigabit unmanaged switch + 2× SFP, no PoE output — pure switching",
+    "housing": "Industrial Aluminium",
+    "dims": "56×110×114 mm",
+    "weight": "451 g",
+    "op_temp": "—",
+    "variants": {
+      "headers": ["Cellular", "Wi-Fi", "PoE Out", "PoE Budget", "Part Number"],
+      "rows": [
+        ["—", "—", "✓", "240W, 30W/port", "XB82-2 Unmanaged PoE Switch"]
+      ]
+    }
+  },
+  {
+    "id": "xc80",
+    "name": "XC80-1",
+    "cat": "Switch",
+    "cpu": "—",
+    "ram": "—",
+    "storage": "—",
+    "cell": "none",
+    "cellular_gen": "none",
+    "wifi": "none",
+    "rs485": false,
+    "rs232": false,
+    "ip": "",
+    "power": "9–30 VDC",
+    "ports": 8,
+    "os": "—",
+    "desc": "8-port fast ethernet unmanaged PoE switch, 240W budget, DIN rail",
+    "housing": "Sheet Metal",
+    "dims": "45×110×95 mm",
+    "weight": "386 g",
+    "op_temp": "—",
+    "variants": {
+      "headers": ["Cellular", "Wi-Fi", "PoE Out", "PoE Budget", "Part Number"],
+      "rows": [
+        ["—", "—", "✓", "240W, 30W/port", "XC-80-1 Unmanaged PoE Switch"]
+      ]
+    }
+  },
+  {
+    "id": "xd50",
+    "name": "XD50-1",
+    "cat": "Switch",
+    "cpu": "—",
+    "ram": "—",
+    "storage": "—",
+    "cell": "none",
+    "cellular_gen": "none",
+    "wifi": "none",
+    "rs485": false,
+    "rs232": false,
+    "ip": "",
+    "power": "9–30 VDC",
+    "ports": 5,
+    "os": "—",
+    "desc": "5-port fast ethernet unmanaged PoE switch, 240W budget, compact",
+    "housing": "Sheet Metal",
+    "dims": "27×112×94 mm",
+    "weight": "307 g",
+    "op_temp": "—",
+    "variants": {
+      "headers": ["Cellular", "Wi-Fi", "PoE Out", "PoE Budget", "Part Number"],
+      "rows": [
+        ["—", "—", "✓", "240W, 30W/port", "XD50-1 Unmanaged PoE Switch"]
+      ]
+    }
+  },
+  {
+    "id": "xf100",
+    "name": "XF100-1",
+    "cat": "Switch",
+    "cpu": "—",
+    "ram": "—",
+    "storage": "—",
+    "cell": "none",
+    "cellular_gen": "none",
+    "wifi": "none",
+    "rs485": false,
+    "rs232": false,
+    "ip": "",
+    "power": "9–30 VDC",
+    "ports": 10,
+    "os": "—",
+    "desc": "10-port fast ethernet unmanaged PoE switch, 240W budget, DIN rail",
+    "housing": "Sheet Metal",
+    "dims": "45×116×90 mm",
+    "weight": "416 g",
+    "op_temp": "—",
+    "variants": {
+      "headers": ["Cellular", "Wi-Fi", "PoE Out", "PoE Budget", "Part Number"],
+      "rows": [
+        ["—", "—", "✓", "240W, 30W/port", "XF-100-1 Unmanaged PoE Switch"]
+      ]
+    }
+  },
+  {
+    "id": "xg82",
+    "name": "XG-82-2L",
+    "cat": "Switch",
+    "cpu": "—",
+    "ram": "—",
+    "storage": "—",
+    "cell": "none",
+    "cellular_gen": "none",
+    "wifi": "none",
+    "rs485": false,
+    "rs232": false,
+    "ip": "",
+    "power": "44–57 VDC",
+    "ports": 10,
+    "os": "—",
+    "desc": "8-port gigabit managed L2 PoE switch + 2× SFP, 240W budget, VLAN, QoS",
+    "housing": "Industrial Aluminium",
+    "dims": "200×120×55 mm",
+    "weight": "675 g",
+    "op_temp": "—",
+    "variants": {
+      "headers": ["Cellular", "Wi-Fi", "PoE Out", "PoE Budget", "Part Number"],
+      "rows": [
+        ["—", "—", "✓", "240W", "XG82-2L Gigabit Ethernet Managed Switch"]
+      ]
+    }
+  },
+  {
+    "id": "pc3xx",
+    "name": "PC3XX",
+    "cat": "Switch",
+    "cpu": "MediaTek MT7628, 128 MB DDR2",
+    "ram": "128 MB DDR2",
+    "storage": "32 MB Flash",
+    "cell": "none",
+    "cellular_gen": "none",
+    "wifi": "WiFi24",
+    "rs485": true,
+    "rs232": false,
+    "ip": "",
+    "power": "12–24 VDC",
+    "ports": 1,
+    "os": "OpenWRT Linux",
+    "desc": "Serial-to-Ethernet converter with 2× RS485 and optional Wi-Fi 2.4 GHz",
+    "housing": "Sheet Metal",
+    "dims": "80×26×78 mm",
+    "weight": "400 g",
+    "op_temp": "0–50 °C",
+    "variants": {
+      "headers": ["Cellular", "Wi-Fi", "RS485", "No. of RS485 Ports", "Part Number"],
+      "rows": [
+        ["—", "—", "✓", "1", "PC310"],
+        ["—", "—", "✓", "2", "PC311"],
+        ["—", "Wi-Fi 2.4", "✓", "1", "PC312"]
+      ]
+    }
+  },
+  {
+    "id": "multimeter",
+    "name": "Multi-Function Meter",
+    "cat": "Energy Meter",
+    "cpu": "—",
+    "ram": "—",
+    "storage": "—",
+    "cell": "none",
+    "cellular_gen": "none",
+    "wifi": "none",
+    "rs485": false,
+    "rs232": false,
+    "ip": "",
+    "power": "85–270V AC/DC",
+    "ports": 0,
+    "os": "—",
+    "desc": "3-phase panel meter: voltage (LL/LN), current, kW, kWh, kVA, kVAR, PF, Hz — data storage + RTC",
+    "housing": "Panel mount",
+    "dims": "—",
+    "weight": "—",
+    "op_temp": "—",
+    "variants": null
+  },
+  {
+    "id": "dcmeter",
+    "name": "DC Meter",
+    "cat": "Energy Meter",
+    "cpu": "—",
+    "ram": "—",
+    "storage": "—",
+    "cell": "none",
+    "cellular_gen": "none",
+    "wifi": "none",
+    "rs485": true,
+    "rs232": false,
+    "ip": "",
+    "power": "20–60 VDC self-powered",
+    "ports": 0,
+    "os": "—",
+    "desc": "DC energy meter: 1-channel voltage + 4-channel current (up to 200A), RS485 Modbus, LCD display",
+    "housing": "Panel mount",
+    "dims": "—",
+    "weight": "—",
+    "op_temp": "—",
+    "variants": null
+  },
+  {
+    "id": "acmeter",
+    "name": "AC Meter",
+    "cat": "Energy Meter",
+    "cpu": "—",
+    "ram": "—",
+    "storage": "—",
+    "cell": "none",
+    "cellular_gen": "none",
+    "wifi": "none",
+    "rs485": true,
+    "rs232": false,
+    "ip": "",
+    "power": "48 VDC",
+    "ports": 0,
+    "os": "—",
+    "desc": "3-phase AC meter: V, A, kW, kVA, PF, frequency — RS485 Modbus with 2000V isolation",
+    "housing": "Panel mount",
+    "dims": "—",
+    "weight": "—",
+    "op_temp": "-10–55 °C",
+    "variants": null
+  },
+  {
+    "id": "bcpmeter",
+    "name": "Branch Circuit Power Meter",
+    "cat": "Energy Meter",
+    "cpu": "—",
+    "ram": "—",
+    "storage": "—",
+    "cell": "none",
+    "cellular_gen": "none",
+    "wifi": "none",
+    "rs485": true,
+    "rs232": false,
+    "ip": "",
+    "power": "85–270V AC/DC",
+    "ports": 0,
+    "os": "—",
+    "desc": "Single and 3-phase branch circuit meter with RS485 Modbus, DIN rail, LCD + LED indicators",
+    "housing": "DIN rail",
+    "dims": "185×110×30 mm",
+    "weight": "750 g",
+    "op_temp": "0–50 °C",
+    "variants": null
+  },
+  {
+    "id": "mcx",
+    "name": "MC-X (Media Converter)",
+    "cat": "Other",
+    "cpu": "—",
+    "ram": "—",
+    "storage": "—",
+    "cell": "none",
+    "cellular_gen": "none",
+    "wifi": "none",
+    "rs485": false,
+    "rs232": false,
+    "ip": "",
+    "power": "5–12 VDC",
+    "ports": 2,
+    "os": "—",
+    "desc": "Gigabit media converter RJ45 ↔ fiber (SC duplex), up to 10 km, single-mode",
+    "housing": "Steel Metal",
+    "dims": "92×66×26 mm",
+    "weight": "187 g",
+    "op_temp": "0–70 °C",
+    "variants": {
+      "headers": ["Interface", "Mode", "Max Distance", "Part Number"],
+      "rows": [
+        ["1× RJ45 + 1× Fiber SC", "Single-mode", "5 km", "ISMC1-SD851G-S5"],
+        ["1× RJ45 + 1× Fiber SC", "Single-mode", "10 km", "ISMC1-SD311G-10"],
+        ["1× RJ45 + 1× Fiber SC", "Single-mode", "20 km", "SMC1-SD311G-20"]
+      ]
+    }
+  },
+  {
+    "id": "rn50pcba",
+    "name": "RN50-PCBA",
+    "cat": "Other",
+    "cpu": "MediaTek MT7621, 512 MB DDR3",
+    "ram": "256/512 MB DDR3",
+    "storage": "32/64 MB Flash",
+    "cell": "none",
+    "cellular_gen": "none",
+    "wifi": "WiFi5",
+    "rs485": false,
+    "rs232": false,
+    "ip": "",
+    "power": "Active PoE 44–57 VDC",
+    "ports": 2,
+    "os": "OpenWRT Linux",
+    "desc": "PCB-form router module with M12 connectors, PoE powered — for embedded/vehicle use",
+    "housing": "Industrial Aluminium",
+    "dims": "209×30×154 mm",
+    "weight": "—",
+    "op_temp": "—",
+    "variants": {
+      "headers": ["Cellular", "Wi-Fi", "4G/5G", "No. of Modems", "Part Number"],
+      "rows": [
+        ["—", "Wi-Fi 5", "—", "Single", "RN 50 PCB-A"]
+      ]
+    }
+  },
+  {
+    "id": "rvw50",
+    "name": "RVW 50 with M12",
+    "cat": "Other",
+    "cpu": "MediaTek MT7621, 512 MB DDR3",
+    "ram": "256/512 MB DDR3",
+    "storage": "32/64 MB Flash",
+    "cell": "none",
+    "cellular_gen": "none",
+    "wifi": "WiFi5",
+    "rs485": false,
+    "rs232": false,
+    "ip": "",
+    "power": "Active PoE 44–57 VDC",
+    "ports": 4,
+    "os": "OpenWRT Linux",
+    "desc": "M12 connector router: 1× WAN + 3× LAN (all M12), Wi-Fi 5 — harsh environment design",
+    "housing": "Industrial Aluminium",
+    "dims": "209×30×154 mm",
+    "weight": "—",
+    "op_temp": "—",
+    "variants": {
+      "headers": ["Cellular", "Wi-Fi", "4G/5G", "No. of Modems", "Part Number"],
+      "rows": [
+        ["—", "Wi-Fi 5", "—", "Single", "RVW 50"]
+      ]
+    }
+  },
+  {
+    "id": "nms",
+    "name": "NMS",
+    "cat": "Other",
+    "cpu": "Software platform",
+    "ram": "—",
+    "storage": "—",
+    "cell": "none",
+    "cellular_gen": "none",
+    "wifi": "none",
+    "rs485": false,
+    "rs232": false,
+    "ip": "",
+    "power": "—",
+    "ports": 0,
+    "os": "Web-based, OpenWRT compatible",
+    "desc": "Network management system: remote monitoring, config push, auto-provisioning, alerts — supports 10 to 10,000+ devices",
+    "housing": "Software / Cloud",
+    "dims": "—",
+    "weight": "—",
+    "op_temp": "—",
+    "variants": null
+  },
+  {
+    "id": "miniups",
+    "name": "Mini UPS",
+    "cat": "Other",
+    "cpu": "—",
+    "ram": "—",
+    "storage": "—",
+    "cell": "none",
+    "cellular_gen": "none",
+    "wifi": "none",
+    "rs485": false,
+    "rs232": false,
+    "ip": "",
+    "power": "12V in / 12V out (2A/3A)",
+    "ports": 0,
+    "os": "—",
+    "desc": "Compact UPS: 19 Whr (3–5 hr) or 38 Whr (9–10 hr) runtime, user-replaceable 18650/26650 cell",
+    "housing": "Plastic",
+    "dims": "—",
+    "weight": "—",
+    "op_temp": "—",
+    "variants": {
+      "headers": ["Battery", "Capacity", "Backup Time", "Part Number"],
+      "rows": [
+        ["18650 cells", "19 Whr", "3–5 hours", "Mini UPS 19W"],
+        ["26650 cells", "38 Whr", "9–10 hours", "Mini UPS 38W"]
+      ]
+    }
+  }
 ];
