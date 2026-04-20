@@ -231,14 +231,40 @@ function updateCompareTray() {
 
 function clearCompare() { compareSet.clear(); render(); }
 
+function buildVariantsTable(v) {
+  if (!v || !v.headers || !v.rows) return '';
+  const noteHtml = v.note ? `<div class="variants-note">${v.note}</div>` : '';
+  const lastIdx = v.headers.length - 1;
+  const thead = `<tr>${v.headers.map((h, i) => `<th${i === lastIdx ? ' class="col-partno"' : ''}>${h}</th>`).join('')}</tr>`;
+  const tbody = v.rows.map(row =>
+    `<tr>${row.map((cell, i) => {
+      const cls = i === lastIdx ? ' class="cell-partno"' : cell === '✓' ? ' class="cell-yes"' : cell === '—' ? ' class="cell-no"' : '';
+      return `<td${cls}>${cell}</td>`;
+    }).join('')}</tr>`
+  ).join('');
+  return `
+    <div class="spec-section variants-section">
+      <div class="spec-section-title">Product Variants</div>
+      ${noteHtml}
+      <div class="variants-table-wrap">
+        <table class="variants-table">
+          <thead>${thead}</thead>
+          <tbody>${tbody}</tbody>
+        </table>
+      </div>
+    </div>`;
+}
+
 function openDetail(id) {
   const p = PRODUCTS.find(x => x.id === id);
   if (!p) return;
   document.getElementById('modalRoot').innerHTML = `
     <div class="modal-overlay" onclick="if(event.target===this)closeModal()">
       <div class="modal">
-        <div class="modal-header">
+        <div class="modal-close-bar">
           <button class="modal-close" onclick="closeModal()">×</button>
+        </div>
+        <div class="modal-header">
           <span class="badge ${catBadgeClass(p.cat)}">${p.cat}</span>
           <div class="modal-title">${p.name}</div>
           <div class="modal-desc">${p.desc}</div>
@@ -265,6 +291,7 @@ function openDetail(id) {
             ${srow('Operating temp',p.op_temp||'—')}
           </div>
           ${p.os&&p.os!=='—'?`<div class="spec-section"><div class="spec-section-title">Software</div>${srow('Operating system',p.os)}</div>`:''}
+          ${buildVariantsTable(p.variants)}
         </div>
         <div class="modal-actions">
           <a class="btn-enquire" href="mailto:sales@invendis.com?subject=Enquiry: ${encodeURIComponent(p.name)}&body=Hi Invendis team,%0A%0AI would like to enquire about the ${encodeURIComponent(p.name)}.%0A%0APlease send me more details.%0A%0AThank you.">Enquire about this product</a>
@@ -312,8 +339,10 @@ function openCompareModal() {
   document.getElementById('modalRoot').innerHTML = `
     <div class="modal-overlay" onclick="if(event.target===this)closeModal()">
       <div class="modal compare-modal">
-        <div class="modal-header">
+        <div class="modal-close-bar">
           <button class="modal-close" onclick="closeModal()">×</button>
+        </div>
+        <div class="modal-header">
           <div class="modal-title">Product comparison</div>
           <div class="modal-desc">Rows highlighted in yellow have differing values between products.</div>
         </div>
