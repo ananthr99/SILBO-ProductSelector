@@ -217,7 +217,7 @@ const PRODUCTS_DATA = [
   },
   {
     "id": "roxx",
-    "name": "RO XX",
+    "name": "ROXX",
     "cat": "Router",
     "cpu": "MediaTek MT7981, 1 GB DDR4, 128 MB NAND",
     "ram": "1 GB DDR4",
@@ -346,7 +346,7 @@ const PRODUCTS_DATA = [
   },
   {
     "id": "rdxx",
-    "name": "RDxx",
+    "name": "RDXX",
     "cat": "Router",
     "cpu": "MediaTek MT7628, 128 MB DDR2, 32 MB Flash",
     "ram": "128 MB DDR2",

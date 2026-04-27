@@ -1,0 +1,9 @@
+const CATS = ['All','Router','Gateway','Switch','Energy Meter','Other'];
+const PAGE_SIZE = 12;
+let PRODUCTS = [];
+let viewMode = 'grid';
+let activeCat = 'All';
+let compareSet = new Set();
+let currentPage = 1;
+let carouselImages = [];
+let carouselIdx = 0;

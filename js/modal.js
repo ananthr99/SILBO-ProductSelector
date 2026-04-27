@@ -1,0 +1,98 @@
+function buildVariantsTable(v) {
+  if (!v || !v.headers || !v.rows) return '';
+  const noteHtml = v.note ? `<div class="variants-note">${v.note}</div>` : '';
+  const lastIdx = v.headers.length - 1;
+  const thead = `<tr>${v.headers.map((h, i) => `<th${i === lastIdx ? ' class="col-partno"' : ''}>${h}</th>`).join('')}</tr>`;
+  const tbody = v.rows.map(row =>
+    `<tr>${row.map((cell, i) => {
+      const cls = i === lastIdx ? ' class="cell-partno"' : cell === '✓' ? ' class="cell-yes"' : cell === '—' ? ' class="cell-no"' : '';
+      return `<td${cls}>${cell}</td>`;
+    }).join('')}</tr>`
+  ).join('');
+  return `
+    <div class="spec-section variants-section">
+      <div class="spec-section-title">Product Variants</div>
+      ${noteHtml}
+      <div class="variants-table-wrap">
+        <table class="variants-table">
+          <thead>${thead}</thead>
+          <tbody>${tbody}</tbody>
+        </table>
+      </div>
+    </div>`;
+}
+
+function buildImageCarousel(id, name) {
+  const imgs = PRODUCT_IMAGES[id] || [];
+  if (!imgs.length) return '';
+  carouselImages = imgs;
+  carouselIdx = 0;
+  const multi = imgs.length > 1;
+  return `
+    <div class="product-image-wrap">
+      ${multi ? `<button class="carousel-btn carousel-prev" onclick="navigateCarousel(-1)">&#8249;</button>` : ''}
+      <img class="carousel-img" id="carouselImg" src="${imgs[0]}" alt="${name}">
+      ${multi ? `<button class="carousel-btn carousel-next" onclick="navigateCarousel(1)">&#8250;</button>` : ''}
+      ${multi ? `<div class="carousel-counter" id="carouselCounter">1 / ${imgs.length}</div>` : ''}
+    </div>`;
+}
+
+function navigateCarousel(dir) {
+  if (!carouselImages.length) return;
+  carouselIdx = (carouselIdx + dir + carouselImages.length) % carouselImages.length;
+  document.getElementById('carouselImg').src = carouselImages[carouselIdx];
+  const counter = document.getElementById('carouselCounter');
+  if (counter) counter.textContent = `${carouselIdx + 1} / ${carouselImages.length}`;
+}
+
+function openDetail(id) {
+  const p = PRODUCTS.find(x => x.id === id);
+  if (!p) return;
+  document.getElementById('modalRoot').innerHTML = `
+    <div class="modal-overlay" onclick="if(event.target===this)closeModal()">
+      <div class="modal">
+        <div class="modal-close-bar">
+          <button class="modal-close" onclick="closeModal()">×</button>
+        </div>
+        <div class="modal-header">
+          <span class="badge ${catBadgeClass(p.cat)}">${p.cat}</span>
+          <div class="modal-title">${p.name}</div>
+          <div class="modal-desc">${p.desc}</div>
+        </div>
+        ${buildImageCarousel(p.id, p.name)}
+        ${(PRODUCT_USE_CASES[p.id]||[]).length ? `<div class="modal-use-cases"><div class="modal-use-cases-label">Typical Use Cases</div><div class="modal-use-cases-chips">${(PRODUCT_USE_CASES[p.id]).map(u=>`<span class="use-case-chip">${u}</span>`).join('')}</div></div>` : ''}
+        <div class="modal-body">
+          <div class="spec-section">
+            <div class="spec-section-title">Connectivity</div>
+            ${srow('Cellular',p.cellular_gen==='none'?'None':p.cell)}
+            ${srow('Wi-Fi',wifiLabel(p.wifi))}
+            ${srow('Ethernet ports',p.ports>0?p.ports+' ports':'N/A')}
+            ${srow('RS485',p.rs485?'Yes':'No')}
+            ${srow('RS232',p.rs232?'Yes':'No')}
+          </div>
+          <div class="spec-section">
+            <div class="spec-section-title">Hardware</div>
+            ${srow('CPU',p.cpu)}
+            ${srow('RAM',p.ram||'—')}
+            ${srow('Storage',p.storage||'—')}
+            ${srow('Power input',p.power)}
+            ${srow('IP / Housing',p.ip||'Not specified')}
+            ${srow('Enclosure',p.housing)}
+            ${srow('Dimensions',p.dims||'—')}
+            ${srow('Weight',p.weight||'—')}
+            ${srow('Operating temp',p.op_temp||'—')}
+          </div>
+          ${p.os&&p.os!=='—'?`<div class="spec-section"><div class="spec-section-title">Software</div>${srow('Operating system',p.os)}</div>`:''}
+          ${buildVariantsTable(p.variants)}
+        </div>
+        <div class="modal-actions">
+          <a class="btn-enquire" href="mailto:sales@invendis.com?subject=Enquiry: ${encodeURIComponent(p.name)}&body=Hi Invendis team,%0A%0AI would like to enquire about the ${encodeURIComponent(p.name)}.%0A%0APlease send me more details.%0A%0AThank you.">Enquire about this product</a>
+          <button class="btn-add-compare" onclick="toggleCompare('${p.id}',${!compareSet.has(p.id)});this.textContent=compareSet.has('${p.id}')?'Added to compare':'+ Compare'">
+            ${compareSet.has(p.id)?'Added to compare':'+ Compare'}
+          </button>
+        </div>
+      </div>
+    </div>`;
+}
+
+function closeModal() { document.getElementById('modalRoot').innerHTML = ''; }
