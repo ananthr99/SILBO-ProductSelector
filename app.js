@@ -5,6 +5,53 @@ let viewMode = 'grid';
 let activeCat = 'All';
 let compareSet = new Set();
 let currentPage = 1;
+let carouselImages = [];
+let carouselIdx = 0;
+
+const PRODUCT_IMAGES = {
+  'intel-x6425': ['assets/images/intelx6425.png'],
+  'inv-ce-xx':   ['assets/images/inv-ce-xx.png'],
+  'inv-cea-xx':  ['assets/images/inv-cea-xx.png'],
+  'inv-ceb-xx':  ['assets/images/inv-ceb-xx.png'],
+  'inv-cd-xx':   ['assets/images/inv-cd-xx-1.png', 'assets/images/inv-cd-xx-2.png'],
+  'rtsxx':       ['assets/images/rts-xx-1.png', 'assets/images/rts-xx-2.png'],
+  'ru60':        ['assets/images/ru60.png'],
+  'roxx':        ['assets/images/ro-xx.png'],
+  'rtxx':        ['assets/images/rt-xx.png'],
+  'rvxx':        ['assets/images/rv-xx.png'],
+  'rv00':        ['assets/images/rv00.png'],
+  'rdxx':        ['assets/images/rd-xx.png'],
+  'rexx':        ['assets/images/re-xx.png'],
+  'ri44':        ['assets/images/ri44.png'],
+  'mt7621odu':   ['assets/images/MT7621-01 ODU.png'],
+  'rt65odu':     ['assets/images/RT65-ODU.png'],
+  'idf':         ['assets/images/idf.png'],
+  'iexx':        ['assets/images/iexx-x-xx.png'],
+  'iaxx':        ['assets/images/iaxx-x.png'],
+  'rfnxx':       ['assets/images/rfn-xx.png'],
+  'iabxx':       ['assets/images/iab-xx-x.png'],
+  'iacxx':       ['assets/images/iac-xx-x.png'],
+  'iafxx':       ['assets/images/iaf-xx-x.png'],
+  'idxx':        ['assets/images/idxx-x.png'],
+  'idbxx':       ['assets/images/idb-xx-x.png'],
+  'isense':      ['assets/images/isense-violet.png'],
+  'xa82':        ['assets/images/xa-82-2.png'],
+  'xb82':        ['assets/images/xb-82-2.png'],
+  'xc80':        ['assets/images/xc-80-1.png'],
+  'xd50':        ['assets/images/xd-50-1.png'],
+  'xf100':       ['assets/images/xf-100-1.png'],
+  'xg82':        ['assets/images/xg-82-2l.png'],
+  'pc3xx':       ['assets/images/pc3-xx.png'],
+  'mcx':         ['assets/images/mc-x.png'],
+  'rn50pcba':    ['assets/images/RN50-PCB-A.png'],
+  'rvw50':       ['assets/images/RVW 50-M12.png'],
+  'miniups':     ['assets/images/Mini UPS.png'],
+  'multimeter':  ['assets/images/Multi Function Meter.png', 'assets/images/Multi Function Meter-2.png'],
+  'dcmeter':     ['assets/images/DC Meter-1.png', 'assets/images/DC Meter-2.png'],
+  'acmeter':     ['assets/images/AC Meter-1.png', 'assets/images/AC Meter-2.png'],
+  'bcpmeter':    ['assets/images/Branch Circuit Power Meter.png'],
+  'nms':         ['assets/images/NMS.jpg']
+};
 
 function catBadgeClass(c) {
   return {Router:'b-router',Gateway:'b-gateway',Switch:'b-switch','Energy Meter':'b-energy',Other:'b-other'}[c]||'b-other';
@@ -139,8 +186,12 @@ function goPage(p) {
 
 function renderGrid(list, r) {
   r.className = 'grid-view';
-  r.innerHTML = list.map(p => `
+  r.innerHTML = list.map(p => {
+    const imgs = PRODUCT_IMAGES[p.id];
+    const thumb = imgs?.length ? `<div class="card-thumb-wrap"><img class="card-thumb" src="${imgs[0]}" alt="${p.name}"></div>` : '';
+    return `
     <div class="card ${compareSet.has(p.id)?'compare-selected':''}">
+      ${thumb}
       <span class="badge ${catBadgeClass(p.cat)}">${p.cat}</span>
       <div class="card-name">${p.name}</div>
       <div class="card-desc">${p.desc}</div>
@@ -159,20 +210,26 @@ function renderGrid(list, r) {
         <span class="details-link" onclick="openDetail('${p.id}')">Details →</span>
       </div>
     </div>
-  `).join('');
+  `;
+  }).join('');
 }
 
 function renderList(list, r) {
   r.className = 'list-view';
   r.innerHTML = `<div class="list-head">
+    <span></span>
     <span>Model</span><span>Description</span>
     <span style="text-align:center">Cellular</span>
     <span style="text-align:center">Wi-Fi</span>
     <span style="text-align:center">RS485</span>
     <span style="text-align:center">Ports</span>
     <span style="text-align:center">Compare</span>
-  </div>` + list.map(p => `
+  </div>` + list.map(p => {
+    const imgs = PRODUCT_IMAGES[p.id];
+    const thumb = imgs?.length ? `<img class="list-thumb" src="${imgs[0]}" alt="${p.name}">` : `<span></span>`;
+    return `
     <div class="list-row ${compareSet.has(p.id)?'compare-selected':''}" onclick="openDetail('${p.id}')">
+      ${thumb}
       <div>
         <div class="list-name">${p.name}</div>
         <div class="list-cat"><span class="badge ${catBadgeClass(p.cat)}">${p.cat}</span></div>
@@ -186,7 +243,8 @@ function renderList(list, r) {
         <input type="checkbox" style="width:14px;height:14px;accent-color:#1A6FC4;cursor:pointer" ${compareSet.has(p.id)?'checked':''} onchange="toggleCompare('${p.id}',this.checked)">
       </div>
     </div>
-  `).join('');
+  `;
+  }).join('');
 }
 
 function setView(v) {
@@ -256,6 +314,29 @@ function buildVariantsTable(v) {
     </div>`;
 }
 
+function buildImageCarousel(id, name) {
+  const imgs = PRODUCT_IMAGES[id] || [];
+  if (!imgs.length) return '';
+  carouselImages = imgs;
+  carouselIdx = 0;
+  const multi = imgs.length > 1;
+  return `
+    <div class="product-image-wrap">
+      ${multi ? `<button class="carousel-btn carousel-prev" onclick="navigateCarousel(-1)">&#8249;</button>` : ''}
+      <img class="carousel-img" id="carouselImg" src="${imgs[0]}" alt="${name}">
+      ${multi ? `<button class="carousel-btn carousel-next" onclick="navigateCarousel(1)">&#8250;</button>` : ''}
+      ${multi ? `<div class="carousel-counter" id="carouselCounter">1 / ${imgs.length}</div>` : ''}
+    </div>`;
+}
+
+function navigateCarousel(dir) {
+  if (!carouselImages.length) return;
+  carouselIdx = (carouselIdx + dir + carouselImages.length) % carouselImages.length;
+  document.getElementById('carouselImg').src = carouselImages[carouselIdx];
+  const counter = document.getElementById('carouselCounter');
+  if (counter) counter.textContent = `${carouselIdx + 1} / ${carouselImages.length}`;
+}
+
 function openDetail(id) {
   const p = PRODUCTS.find(x => x.id === id);
   if (!p) return;
@@ -270,6 +351,7 @@ function openDetail(id) {
           <div class="modal-title">${p.name}</div>
           <div class="modal-desc">${p.desc}</div>
         </div>
+        ${buildImageCarousel(p.id, p.name)}
         <div class="modal-body">
           <div class="spec-section">
             <div class="spec-section-title">Connectivity</div>
