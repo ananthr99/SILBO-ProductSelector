@@ -1,7 +1,9 @@
 :root {
-  --navy: #436384;
-  --navy-mid: #152D4F;
-  --navy-light: #1E3D6B;
+  --brand-red: #ff0202;
+  --brand-blue: #05059b;
+  --navy: #05059b;
+  --navy-mid: #03037a;
+  --navy-light: #0a0abf;
   --blue: #1A6FC4;
   --blue-light: #2E88E5;
   --blue-pale: #EAF2FB;
@@ -51,19 +53,20 @@ body {
 
 /* ── Footer logos ── */
 .footer-logos { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
-.footer-logo-img { display: block; object-fit: contain; }
+.footer-logo-img { display: block; object-fit: contain; filter: brightness(0) invert(1); opacity: 0.9; }
 .footer-logo-invendis { height: 36px;}
 .footer-logo-silbo { height: 36px;}
 
 /* ── Header ── */
 header {
-  background: var(--navy);
-  color: var(--white);
+  background: #ffffff;
+  color: var(--brand-blue);
   padding: 0;
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+  border-bottom: 3px solid var(--brand-red);
 }
 .header-inner {
   max-width: 1280px;
@@ -103,10 +106,10 @@ header {
   align-items: center;
   gap: 20px;
   font-size: 12px;
-  color: rgba(255,255,255,0.65);
+  color: var(--brand-blue);
 }
-.header-contact a { color: rgba(255,255,255,0.65); text-decoration: none; }
-.header-contact a:hover { color: var(--accent); }
+.header-contact a { color: var(--brand-blue); text-decoration: none; font-weight: 500; }
+.header-contact a:hover { color: var(--brand-red); }
 .header-nav { display: flex; gap: 8px; }
 .header-nav a {
   font-size: 13px;
@@ -854,14 +857,16 @@ select.active-filter { border-color: var(--blue); background-color: var(--blue-p
 
 /* ── Footer ── */
 footer {
-  background: var(--navy);
-  color: rgba(255,255,255,0.6);
-  padding: 36px 32px;
+  background: var(--brand-blue);
+  color: rgba(255,255,255,0.75);
+  padding: 0 32px 36px;
   margin-top: 40px;
+  border-top: 4px solid var(--brand-red);
 }
 .footer-inner {
   max-width: 1280px;
   margin: 0 auto;
+  padding-top: 36px;
   display: flex;
   flex-wrap: wrap;
   gap: 32px;
@@ -869,18 +874,18 @@ footer {
   align-items: flex-start;
 }
 .footer-brand .logo-name { font-size: 16px; color: white; }
-.footer-brand p { font-size: 13px; color: rgba(255,255,255,0.45); margin-top: 6px; max-width: 280px; line-height: 1.5; }
-.footer-contact h4 { font-size: 13px; font-weight: 600; color: white; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.06em; }
+.footer-brand p { font-size: 13px; color: rgba(255,255,255,0.55); margin-top: 6px; max-width: 280px; line-height: 1.5; }
+.footer-contact h4 { font-size: 13px; font-weight: 600; color: var(--brand-red); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.06em; }
 .footer-contact p { font-size: 13px; margin-bottom: 5px; }
-.footer-contact a { color: rgba(255,255,255,0.65); text-decoration: none; }
-.footer-contact a:hover { color: var(--accent); }
+.footer-contact a { color: rgba(255,255,255,0.75); text-decoration: none; }
+.footer-contact a:hover { color: #ffffff; }
 .footer-bottom {
   max-width: 1280px;
   margin: 24px auto 0;
   padding-top: 18px;
-  border-top: 1px solid rgba(255,255,255,0.08);
+  border-top: 1px solid rgba(255,255,255,0.15);
   font-size: 12px;
-  color: rgba(255,255,255,0.3);
+  color: rgba(255,255,255,0.45);
 }
 
 /* ── Responsive ── */
