@@ -520,7 +520,7 @@ select.active-filter { border-color: var(--blue); background-color: var(--blue-p
   background: white;
   border-radius: var(--radius-lg);
   width: 100%;
-  max-width: 540px;
+  max-width: min(860px, 96vw);
   max-height: 88vh;
   overflow-y: auto;
   box-shadow: var(--shadow-lg);
@@ -680,6 +680,64 @@ select.active-filter { border-color: var(--blue); background-color: var(--blue-p
 }
 .btn-add-compare:hover { border-color: var(--blue); color: var(--blue); }
 
+/* ── Datasheet buttons (used in variants table and product-level section) ── */
+.ds-btn {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  font-family: inherit;
+  padding: 3px 9px;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: all 0.15s;
+  white-space: nowrap;
+  line-height: 1.4;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.ds-view { background: var(--white); color: var(--blue); border-color: var(--blue); }
+.ds-view:hover { background: var(--blue); color: var(--white); }
+.ds-download {
+  background: var(--blue);
+  color: var(--white);
+  border-color: var(--blue);
+  font-size: 13px;
+  padding: 2px 8px;
+}
+.ds-download:hover { background: var(--navy); border-color: var(--navy); }
+
+/* Variants table — Data Sheet column */
+.col-datasheet { text-align: center; white-space: nowrap; width: 1%; }
+.cell-datasheet { text-align: center; white-space: nowrap; }
+.cell-datasheet .ds-btn + .ds-btn { margin-left: 4px; }
+
+/* ── Product-level datasheet section (no per-variant sheets) ── */
+.datasheet-section { border-top: 1px solid var(--border); margin-top: 0; }
+.datasheet-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  background: var(--off-white);
+  border: 1px solid var(--border);
+}
+.datasheet-icon { width: 18px; height: 18px; flex-shrink: 0; color: #e63946; }
+.datasheet-label {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-main);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.datasheet-btns { display: flex; gap: 6px; flex-shrink: 0; }
+.datasheet-btns .ds-btn { font-size: 12px; padding: 4px 12px; }
+
 /* ── Compare modal ── */
 .compare-modal { max-width: 900px; }
 .compare-table { width: 100%; border-collapse: collapse; font-size: 13px; }
@@ -726,7 +784,7 @@ select.active-filter { border-color: var(--blue); background-color: var(--blue-p
   color: white;
 }
 .variants-table th {
-  padding: 9px 14px;
+  padding: 7px 10px;
   text-align: left;
   font-weight: 600;
   font-size: 11.5px;
@@ -735,7 +793,7 @@ select.active-filter { border-color: var(--blue); background-color: var(--blue-p
 }
 .variants-table th.col-partno { text-align: center; }
 .variants-table td {
-  padding: 8px 14px;
+  padding: 6px 10px;
   border-bottom: 1px solid var(--border);
   vertical-align: middle;
   font-size: 13px;

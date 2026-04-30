@@ -87,3 +87,123 @@ const PRODUCT_USE_CASES = {
   'acmeter':     ['AC Distribution Monitoring', 'Motor Current Monitoring', 'Power Quality Analysis', 'Generator Output Metering'],
   'bcpmeter':    ['Panel-Level Energy Sub-metering', 'Data Center PDU Monitoring', 'Building Electrical Audit', 'Branch Circuit Monitoring'],
 };
+
+// Per-variant datasheets keyed by the exact part-number string from the last
+// column of a variants table row (after stripping any parenthetical note).
+const PART_DATASHEETS = {
+  // RTS series
+  'RTS00':   'assets/datasheets/RTS00-6.pdf',
+  'RTS04-1': 'assets/datasheets/RTS04-1.pdf',
+  'RTS04-2': 'assets/datasheets/RTS04-2.pdf',
+  'RTS05-1': 'assets/datasheets/RTS05-1.pdf',
+  'RTS05-2': 'assets/datasheets/RTS05-2.pdf',
+  'RTS-60':  'assets/datasheets/RTS60.pdf',
+  'RTS64-2': 'assets/datasheets/RTS64-2.pdf',
+  'RTS65-1': 'assets/datasheets/RTS65-1.pdf',
+  'RTS65-2': 'assets/datasheets/RTS65-2.pdf',
+  // RU
+  'RU60': 'assets/datasheets/RU60.pdf',
+  // RO series
+  'RO64-1': 'assets/datasheets/RO64-1.pdf',
+  'RO64-2': 'assets/datasheets/RO64-2.pdf',
+  'RO65-1': 'assets/datasheets/RO65-1.pdf',
+  'RO65-2': 'assets/datasheets/RO65-2.pdf',
+  // RT series
+  'RT00':   'assets/datasheets/RT00.pdf',
+  'RT04-1': 'assets/datasheets/RT04-1.pdf',
+  'RT04-2': 'assets/datasheets/RT04-2.pdf',
+  'RT05-1': 'assets/datasheets/RT05-1.pdf',
+  'RT05-2': 'assets/datasheets/RT05-2.pdf',
+  'RT-60':  'assets/datasheets/RT60.pdf',
+  'RT64-1': 'assets/datasheets/RT64-1.pdf',
+  'RT64-2': 'assets/datasheets/RT64-2.pdf',
+  'RT65-1': 'assets/datasheets/RT65-1.pdf',
+  'RT65-2': 'assets/datasheets/RT65-2.pdf',
+  // RV series
+  'RV04-1': 'assets/datasheets/RV04-1.pdf',
+  'RV04-2': 'assets/datasheets/RV04-2.pdf',
+  'RV50':   'assets/datasheets/RV50.pdf',
+  'RV54-1': 'assets/datasheets/RV54-1.pdf',
+  'RV54-2': 'assets/datasheets/RV54-2.pdf',
+  'RV00':   'assets/datasheets/RV00.pdf',
+  // RD series  ('RD44-A' in table → RD44.pdf is the matching family file)
+  'RD44-A': 'assets/datasheets/RD44.pdf',
+  'RD04-A': 'assets/datasheets/RD04-A.pdf',
+  'RD44-B': 'assets/datasheets/RD44-B.pdf',
+  'RD04-B': 'assets/datasheets/RD04-B.pdf',
+  'RD44-C': 'assets/datasheets/RD44-C.pdf',
+  'RD04-C': 'assets/datasheets/RD04-C.pdf',
+  'RDS00':  'assets/datasheets/RDS00.pdf',
+  // RE series
+  'RE44': 'assets/datasheets/RE44.pdf',
+  'RE04': 'assets/datasheets/RE04.pdf',
+  // RI
+  'RI44': 'assets/datasheets/RI44.pdf',
+  // ODU
+  'MT7621-01 ODU': 'assets/datasheets/ODU-MT7621.pdf',
+  // IE series  (table uses "IE44-A", file uses "IE44A" — handled via key)
+  'IE44-A':     'assets/datasheets/IE44A.pdf',
+  'IE44-C':     'assets/datasheets/IE44C.pdf',
+  'IE44-A-EX1': 'assets/datasheets/IE44A-EX1.pdf',
+  // IA series
+  'IA40-C': 'assets/datasheets/IA40-C.pdf',
+  'IA44-A': 'assets/datasheets/IA44-A.pdf',
+  'IA44-B': 'assets/datasheets/IA44-B.pdf',
+  'IA44-C': 'assets/datasheets/IA44-C.pdf',
+  // RFN series
+  'RFN44-A': 'assets/datasheets/RFN44-A.pdf',
+  'RFN44-B': 'assets/datasheets/RFN44-B.pdf',
+  'RFN44-C': 'assets/datasheets/RFN44-C.pdf',
+  // IAB series
+  'IAB44-C': 'assets/datasheets/IAB44-C.pdf',
+  'IAB44-B': 'assets/datasheets/IAB44-B.pdf',
+  'IAB04-C': 'assets/datasheets/IAB04-C.pdf',
+  // IAC series
+  'IAC44-C': 'assets/datasheets/IAC44-C.pdf',
+  'IAC44-A': 'assets/datasheets/IAC44-A.pdf',
+  'IAC04-A': 'assets/datasheets/IAC04-A.pdf',
+  'IAC04-C': 'assets/datasheets/IAC04-C.pdf',
+  // IAF series
+  'IAF44-C1': 'assets/datasheets/IAF44-C1.pdf',
+  'IAF04-C1': 'assets/datasheets/IAF04-C1.pdf',
+  // ID series (shared by idf -48V and idxx 9-30V products)
+  'ID54':   'assets/datasheets/ID54.pdf',
+  'ID54-B': 'assets/datasheets/ID54-B.pdf',
+  'ID55':   'assets/datasheets/ID55.pdf',
+  'ID55-B': 'assets/datasheets/ID55-B.pdf',
+  // IDB series
+  'IDB54': 'assets/datasheets/IDB54 (1).pdf',
+  'IDB55': 'assets/datasheets/IDB55.pdf',
+  // iSense
+  'iSense Violet Plus Pro': 'assets/datasheets/Isense Violet Plus Pro.pdf',
+  'iSense Green Plus Pro':  'assets/datasheets/Isense Green Plus Pro.pdf',
+  'iSense Blue Plus Pro':   'assets/datasheets/Isense Blue Plus Pro.pdf',
+  // Switches (full part-number string as it appears in the table)
+  'XA82-2 Unmanaged PoE Switch':             'assets/datasheets/XA-82-2.pdf',
+  'XB82-2 Unmanaged PoE Switch':             'assets/datasheets/XB-82-2.pdf',
+  'XC-80-1 Unmanaged PoE Switch':            'assets/datasheets/XC-80-1.pdf',
+  'XD50-1 Unmanaged PoE Switch':             'assets/datasheets/XD-50-1.pdf',
+  'XF-100-1 Unmanaged PoE Switch':           'assets/datasheets/XF-100-1.pdf',
+  'XG82-2L Gigabit Ethernet Managed Switch': 'assets/datasheets/XG-82-2L Updated.pdf',
+  // PC3xx series
+  'PC310': 'assets/datasheets/PC310.pdf',
+  'PC311': 'assets/datasheets/PC311.pdf',
+  'PC312': 'assets/datasheets/PC312.pdf',
+};
+
+// Product-level (family) datasheets for products that have no per-variant sheets
+// or no variants table at all. Shown as a dedicated download bar in the modal.
+const PRODUCT_DATASHEETS = {
+  'intel-x6425': 'assets/datasheets/Intel X6425 Based Industrial PC.pdf',
+  'inv-ce-xx':   'assets/datasheets/Intel X7425E SDWAN Box.pdf',
+  'inv-cea-xx':  'assets/datasheets/Brief Specs Intel X7425E Alder Lake Industrial Automation PC (2) (1).pdf',
+  'inv-ceb-xx':  'assets/datasheets/Intel X7425E Alder Lake 6 port SDWAN Box.pdf',
+  'inv-cd-xx':   'assets/datasheets/INV-CD-N350_Datasheet.pdf',
+  'multimeter':  'assets/datasheets/INV 4640 MFM.pdf',
+  'dcmeter':     'assets/datasheets/ET1641 DC Meter.pdf',
+  'acmeter':     'assets/datasheets/ET4602 AC Meter.pdf',
+  'bcpmeter':    'assets/datasheets/ET7022 BCPM.pdf',
+  'mcx':         'assets/datasheets/MC-1.pdf',
+  'miniups':     'assets/datasheets/Mini UPS_Metal Enclosure_Datasheet 1.pdf',
+  'rn50pcba':    'assets/datasheets/RN50.pdf',
+};

@@ -1,14 +1,61 @@
+function downloadFile(url) {
+  const filename = decodeURIComponent(url.split('/').pop());
+  fetch(url)
+    .then(r => r.blob())
+    .then(blob => {
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+    })
+    .catch(() => {
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    });
+}
+
 function buildVariantsTable(v) {
   if (!v || !v.headers || !v.rows) return '';
+
+  // Strip any parenthetical note from a part-number cell to get the lookup key
+  const dsKey = cell => cell.replace(/\s*\(.*\)$/, '').trim();
+
+  // Only add the Data Sheet column if at least one row has a matching file
+  const hasDs = v.rows.some(row => !!PART_DATASHEETS[dsKey(row[row.length - 1])]);
+
   const noteHtml = v.note ? `<div class="variants-note">${v.note}</div>` : '';
-  const lastIdx = v.headers.length - 1;
-  const thead = `<tr>${v.headers.map((h, i) => `<th${i === lastIdx ? ' class="col-partno"' : ''}>${h}</th>`).join('')}</tr>`;
-  const tbody = v.rows.map(row =>
-    `<tr>${row.map((cell, i) => {
-      const cls = i === lastIdx ? ' class="cell-partno"' : cell === '✓' ? ' class="cell-yes"' : cell === '—' ? ' class="cell-no"' : '';
+  const partNoIdx = v.headers.length - 1;
+
+  const thead = `<tr>
+    ${v.headers.map((h, i) => `<th${i === partNoIdx ? ' class="col-partno"' : ''}>${h}</th>`).join('')}
+    ${hasDs ? '<th class="col-datasheet">Data Sheet</th>' : ''}
+  </tr>`;
+
+  const tbody = v.rows.map(row => {
+    const cells = row.map((cell, i) => {
+      const cls = i === partNoIdx ? ' class="cell-partno"' : cell === '✓' ? ' class="cell-yes"' : cell === '—' ? ' class="cell-no"' : '';
       return `<td${cls}>${cell}</td>`;
-    }).join('')}</tr>`
-  ).join('');
+    }).join('');
+    let dsCell = '';
+    if (hasDs) {
+      const file = PART_DATASHEETS[dsKey(row[row.length - 1])];
+      dsCell = file
+        ? `<td class="cell-datasheet">
+             <a class="ds-btn ds-view" href="${file}" target="_blank" rel="noopener">View</a>
+             <button class="ds-btn ds-download" onclick="downloadFile('${file}')">&#x2193;</button>
+           </td>`
+        : `<td class="cell-no">—</td>`;
+    }
+    return `<tr>${cells}${dsCell}</tr>`;
+  }).join('');
+
   return `
     <div class="spec-section variants-section">
       <div class="spec-section-title">Product Variants</div>
@@ -43,6 +90,28 @@ function navigateCarousel(dir) {
   document.getElementById('carouselImg').src = carouselImages[carouselIdx];
   const counter = document.getElementById('carouselCounter');
   if (counter) counter.textContent = `${carouselIdx + 1} / ${carouselImages.length}`;
+}
+
+function buildDatasheetsSection(id) {
+  const file = PRODUCT_DATASHEETS[id];
+  if (!file) return '';
+  return `
+    <div class="spec-section datasheet-section">
+      <div class="spec-section-title">Datasheet</div>
+      <div class="datasheet-item">
+        <svg class="datasheet-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+          <polyline points="14 2 14 8 20 8" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+          <line x1="8" y1="13" x2="16" y2="13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="8" y1="17" x2="12" y2="17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <span class="datasheet-label">Product Datasheet</span>
+        <div class="datasheet-btns">
+          <a class="ds-btn ds-view" href="${file}" target="_blank" rel="noopener">View</a>
+          <button class="ds-btn ds-download" onclick="downloadFile('${file}')">Download</button>
+        </div>
+      </div>
+    </div>`;
 }
 
 function openDetail(id) {
@@ -84,6 +153,7 @@ function openDetail(id) {
           </div>
           ${p.os&&p.os!=='—'?`<div class="spec-section"><div class="spec-section-title">Software</div>${srow('Operating system',p.os)}</div>`:''}
           ${buildVariantsTable(p.variants)}
+          ${buildDatasheetsSection(p.id)}
         </div>
         <div class="modal-actions">
           <a class="btn-enquire" href="mailto:sales@invendis.com?subject=Enquiry: ${encodeURIComponent(p.name)}&body=Hi Invendis team,%0A%0AI would like to enquire about the ${encodeURIComponent(p.name)}.%0A%0APlease send me more details.%0A%0AThank you.">Enquire about this product</a>
