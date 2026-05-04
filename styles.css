@@ -710,6 +710,8 @@ select.active-filter { border-color: var(--blue); background-color: var(--blue-p
   padding: 2px 8px;
 }
 .ds-download:hover { background: var(--navy); border-color: var(--navy); }
+.ds-contact { background: var(--white); color: var(--blue); border-color: var(--blue); }
+.ds-contact:hover { background: var(--blue); color: var(--white); }
 
 /* Variants table — Data Sheet column */
 .col-datasheet { text-align: center; white-space: nowrap; width: 1%; }
@@ -889,21 +891,102 @@ footer {
 }
 
 /* ── Responsive ── */
+
+/* Wide tablets (≤ 900px) */
+@media (max-width: 900px) {
+  .compare-modal { max-width: calc(100vw - 40px); }
+}
+
+/* Tablets and large phones (≤ 768px) */
 @media (max-width: 768px) {
+  /* Header */
   .header-contact { display: none; }
-  .header-logo-silbo { display: none; }
-  .hero { padding: 28px 16px 24px; }
-  .hero h1 { font-size: 20px; }
-  .main { padding: 18px 16px 80px; }
-  .filter-bar { padding: 14px; gap: 8px; }
-  .grid-view { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; }
-  .list-head { display: none; }
-  .list-row {
-    grid-template-columns: 1fr;
-    gap: 6px;
-  }
-  .list-row .list-cell { text-align: left; }
-  .compare-tray { padding: 12px 16px; }
-  footer { padding: 28px 16px; }
   .header-inner { padding: 0 16px; }
+
+  /* Hero */
+  .hero { padding: 24px 16px 20px; }
+  .hero h1 { font-size: 20px; }
+  .hero-stats { gap: 14px; margin-top: 16px; }
+
+  /* Main */
+  .main { padding: 16px 16px 80px; }
+
+  /* Filter bar */
+  .filter-bar { padding: 12px; gap: 8px; }
+  .search-wrap { min-width: 0; width: 100%; flex: none; }
+  .filter-divider { display: none; }
+
+  /* Category tabs — horizontal scroll instead of wrapping */
+  .cat-tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .cat-tabs::-webkit-scrollbar { display: none; }
+  .cat-tab { flex-shrink: 0; }
+
+  /* Grid */
+  .grid-view { grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); gap: 10px; }
+
+  /* List view */
+  .list-head { display: none; }
+  .list-row { grid-template-columns: 1fr; gap: 6px; }
+  .list-row .list-cell { text-align: left; }
+
+  /* Compare tray */
+  .compare-tray { padding: 10px 16px; gap: 8px; }
+
+  /* Footer */
+  footer { padding: 24px 16px 20px; }
+  .footer-inner { gap: 20px; }
+
+  /* Modal — bottom sheet */
+  .modal-overlay { padding: 0; align-items: flex-end; }
+  .modal {
+    max-width: 100%;
+    max-height: 95vh;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  }
+  .modal-header { padding: 12px 16px 14px; }
+  .modal-title { font-size: 17px; }
+  .modal-close { width: 38px; height: 38px; }
+  .modal-use-cases { padding: 12px 16px 10px; }
+  .product-image-wrap { padding: 16px 20px; min-height: 130px; }
+  .carousel-img { max-height: 180px; }
+  .carousel-btn { width: 40px; height: 40px; }
+  .modal-body { padding: 16px; }
+  .spec-key { width: 110px; }
+  .modal-actions { flex-direction: column; padding: 14px 16px 18px; gap: 8px; }
+  .btn-enquire { width: 100%; }
+  .btn-add-compare { width: 100%; text-align: center; }
+  .datasheet-item { flex-wrap: wrap; }
+  .datasheet-btns { margin-top: 4px; }
+}
+
+/* Small phones (≤ 480px) */
+@media (max-width: 480px) {
+  /* Filter bar — full vertical stack */
+  .filter-bar { flex-direction: column; align-items: stretch; }
+  select { width: 100%; }
+  .view-toggle { align-self: flex-start; }
+
+  /* Grid — fixed 2 columns */
+  .grid-view { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .card { padding: 12px; gap: 6px; }
+  .card-thumb-wrap { height: 110px; margin: -12px -12px 4px -12px; }
+  .card-name { font-size: 14px; }
+
+  /* Hero */
+  .hero h1 { font-size: 17px; }
+  .hero-stat .num { font-size: 18px; }
+
+  /* Modal spec labels */
+  .spec-key { width: 95px; font-size: 12px; }
+
+  /* Compare tray — stack vertically */
+  .compare-tray { flex-direction: column; align-items: stretch; gap: 8px; }
+  .btn-compare { width: 100%; }
+  .btn-clear-compare { width: 100%; text-align: center; }
 }

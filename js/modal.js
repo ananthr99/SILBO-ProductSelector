@@ -45,13 +45,18 @@ function buildVariantsTable(v) {
     }).join('');
     let dsCell = '';
     if (hasDs) {
-      const file = PART_DATASHEETS[dsKey(row[row.length - 1])];
-      dsCell = file
-        ? `<td class="cell-datasheet">
+      const pn = dsKey(row[row.length - 1]);
+      const file = PART_DATASHEETS[pn];
+      if (file) {
+        dsCell = `<td class="cell-datasheet">
              <a class="ds-btn ds-view" href="${file}" target="_blank" rel="noopener">View</a>
              <button class="ds-btn ds-download" onclick="downloadFile('${file}')">&#x2193;</button>
-           </td>`
-        : `<td class="cell-no">—</td>`;
+           </td>`;
+      } else {
+        const mailSubject = encodeURIComponent('Datasheet Request: ' + pn);
+        const mailBody = encodeURIComponent('Hi Invendis team,\n\nI would like to request the datasheet for ' + pn + '.\n\nThank you.');
+        dsCell = `<td class="cell-datasheet"><a class="ds-btn ds-contact" href="mailto:sales@invendis.com?subject=${mailSubject}&body=${mailBody}" title="Datasheet not available — contact us for more information">Contact us</a></td>`;
+      }
     }
     return `<tr>${cells}${dsCell}</tr>`;
   }).join('');
