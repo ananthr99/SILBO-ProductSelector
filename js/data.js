@@ -15,7 +15,7 @@ const PRODUCT_IMAGES = {
   'ri44':        ['assets/images/ri44.png'],
   'mt7621odu':   ['assets/images/MT7621-01 ODU.png'],
   'rt65odu':     ['assets/images/RT65-ODU.png'],
-  'idf':         ['assets/images/idf.png'],
+  'idfxx':       ['assets/images/idf-xx.png'],
   'iexx':        ['assets/images/iexx-x-xx.png'],
   'iaxx':        ['assets/images/iaxx-x.png'],
   'rfnxx':       ['assets/images/rfn-xx.png'],
@@ -60,7 +60,7 @@ const PRODUCT_USE_CASES = {
   'ri44':        ['Telecom Tower Backhaul', 'Street Cabinet Networking', '-48V Plant Equipment', 'RS485 Serial Gateway'],
   'mt7621odu':   ['Outdoor CCTV Connectivity', 'Smart Street Lighting', 'Outdoor Sensor Nodes', 'Billboard Networking'],
   'rt65odu':     ['Outdoor Industrial 5G', 'Construction Site Networks', 'Stadium / Events', 'Port / Logistics Yard'],
-  'idf':         ['Telecom Tower Equipment', '-48V Telecom Plant', 'Base Station Backhaul', 'RS485 Serial Integration'],
+  'idfxx':       ['Telecom Tower Equipment', '-48V Telecom Plant', 'Base Station Backhaul', 'RS485 Serial Integration'],
   'iexx':        ['Smart Meter Reading', 'Remote Sensor Data', 'Asset Tracking', 'Building Automation'],
   'iaxx':        ['Automatic Meter Reading', 'Environmental Monitoring', 'Industrial Sensor Gateway', 'Smart Grid AMI'],
   'rfnxx':       ['Alarm / Security Systems', 'Door & Gate Control', 'Digital I/O Monitoring', 'Field Automation'],
@@ -166,7 +166,14 @@ const PART_DATASHEETS = {
   // IAF series
   'IAF44-C1': 'assets/datasheets/IAF44-C1.pdf',
   'IAF04-C1': 'assets/datasheets/IAF04-C1.pdf',
-  // ID series (shared by idf -48V and idxx 9-30V products)
+  // IDF series (-48V)
+  'IDF04': 'assets/datasheets/IDF04.pdf',
+  'IDF44': 'assets/datasheets/IDF44.pdf',
+  'IDF54': 'assets/datasheets/IDF54.pdf',
+  'IDF05': 'assets/datasheets/IDF05.pdf',
+  'IDF45': 'assets/datasheets/IDF45.pdf',
+  'IDF55': 'assets/datasheets/IDF55.pdf',
+  // ID series (shared by idxx 9-30V products)
   'ID54':   'assets/datasheets/ID54.pdf',
   'ID54-B': 'assets/datasheets/ID54-B.pdf',
   'ID55':   'assets/datasheets/ID55.pdf',

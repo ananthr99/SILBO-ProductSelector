@@ -493,8 +493,8 @@ const PRODUCTS_DATA = [
     }
   },
   {
-    "id": "idf",
-    "name": "IDF",
+    "id": "idfxx",
+    "name": "IDFXX",
     "cat": "Router",
     "cpu": "MediaTek MT7621, 512 MB DDR, 32 MB Flash",
     "ram": "512 MB DDR",
@@ -516,10 +516,12 @@ const PRODUCTS_DATA = [
     "variants": {
       "headers": ["Cellular", "Wi-Fi", "4G/5G", "No. of Modems", "Part Number"],
       "rows": [
-        ["✓", "Wi-Fi 5", "5G", "Single", "ID55-B"],
-        ["✓", "Wi-Fi 5", "5G", "Single", "ID55"],
-        ["✓", "Wi-Fi 5", "4G", "Single", "ID54-B"],
-        ["✓", "Wi-Fi 5", "4G", "Single", "ID54"]
+        ["✓", "-", "4G", "Single", "IDF04"],
+        ["✓", "Wi-Fi 5", "4G", "Single", "IDF54"],
+        ["✓", "Wi-Fi 4", "4G", "Single", "IDF44"],
+        ["✓", "-", "5G", "Single", "IDF05"],
+        ["✓", "Wi-Fi 5", "5G", "Single", "IDF55"],
+        ["✓", "Wi-Fi 4", "5G", "Single", "IDF45"]
       ]
     }
   },
